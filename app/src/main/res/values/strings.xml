@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">TaskyCourse</string>
+
+    <!--  feature_register_screen  -->
+
+    <string name="create_your_account">Create your account</string>
+    <string name="email_address">Email address</string>
+    <string name="get_started">Get started</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="hide_password">Hide password</string>
+    <string name="show_password">Show password</string>
+
 </resources>
