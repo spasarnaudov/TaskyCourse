@@ -30,7 +30,7 @@ class RegisterViewModel @Inject constructor() : ViewModel() {
                 )
             }
             is RegisterEvent.RegisterAction -> TODO()
-            is RegisterEvent.BackAction -> TODO()
+            is RegisterEvent.BackAction -> {}
         }
     }
 }
