@@ -11,7 +11,7 @@ import com.spascoding.taskycourse.feature_register_screen.presentation.register.
 fun NavController(
 ) {
     val navController = rememberNavController()
-    val startDestination = Navigation.LoginNavigation.route //TODO show AgendaScreen if usr is logged in
+    val startDestination = Navigation.LoginNavigation.route //TODO show AgendaScreen if user is logged in
     NavHost(
         navController = navController,
         startDestination = startDestination,

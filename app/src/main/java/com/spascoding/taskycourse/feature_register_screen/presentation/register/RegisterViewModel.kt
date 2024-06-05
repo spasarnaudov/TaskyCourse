@@ -3,11 +3,14 @@ package com.spascoding.taskycourse.feature_register_screen.presentation.register
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.spascoding.taskycourse.feature_register_screen.domain.use_case.AuthenticationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor() : ViewModel() {
+class RegisterViewModel @Inject constructor(
+    private val authenticationUseCases: AuthenticationUseCases
+) : ViewModel() {
 
     private val _state = mutableStateOf(RegisterViewModelState())
     val state: State<RegisterViewModelState> = _state
@@ -21,7 +24,7 @@ class RegisterViewModel @Inject constructor() : ViewModel() {
             }
             is RegisterEvent.ChangeEmailAddress -> {
                 _state.value = state.value.copy(
-                    emailAddress = event.emailAddress
+                    email = event.email
                 )
             }
             is RegisterEvent.ChangePassword -> {
@@ -29,7 +32,21 @@ class RegisterViewModel @Inject constructor() : ViewModel() {
                     password = event.password
                 )
             }
-            is RegisterEvent.RegisterAction -> TODO()
+            is RegisterEvent.RegisterAction -> {
+                authenticationUseCases.registerUser.invoke(
+                    name = _state.value.name,
+                    email = _state.value.email,
+                    password = _state.value.password,
+                ) { email, password ->
+                    authenticationUseCases.loginUser.invoke(email, password) { token ->
+                        authenticationUseCases.authenticateUser.invoke(token) {
+                            authenticationUseCases.logoutUser.invoke(token) {
+
+                            }
+                        }
+                    }
+                }
+            }
             is RegisterEvent.BackAction -> {}
         }
     }

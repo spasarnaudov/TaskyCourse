@@ -79,7 +79,7 @@ fun RegisterScreen(
                         top = Padding.MEDIUM,
                         end = Padding.MEDIUM,
                     ),
-                value = viewModel.state.value.emailAddress,
+                value = viewModel.state.value.email,
                 placeholder = stringResource(R.string.email_address),
                 valid = true,   //TODO add check for email existing
                 onValueChange = {
