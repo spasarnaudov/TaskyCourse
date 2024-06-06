@@ -30,8 +30,8 @@ import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.FontSize
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
-import com.spascoding.taskycourse.feature_register_screen.presentation.register.CustomOutlinedTextField
-import com.spascoding.taskycourse.feature_register_screen.presentation.register.PasswordOutlinedTextField
+import com.spascoding.taskycourse.feature_register_screen.presentation.components.CustomOutlinedTextField
+import com.spascoding.taskycourse.feature_register_screen.presentation.components.PasswordOutlinedTextField
 import com.spascoding.taskycourse.navigation.Navigation
 
 @Composable
@@ -46,7 +46,7 @@ fun LoginScreen(
     ) {
         Text(
             modifier = Modifier.padding(vertical = Padding.LARGE),
-            text = "Welcome Back!",
+            text = stringResource(R.string.welcome_back),
             fontSize = FontSize.LARGE,
             fontWeight = FontWeight.Bold,
         )
@@ -71,7 +71,7 @@ fun LoginScreen(
                     ),
                 value = viewModel.state.value.email,
                 placeholder = stringResource(R.string.email_address),
-                valid = true,   //TODO add check for email existing
+                valid = viewModel.validEmail(),
                 onValueChange = {
                     viewModel.onEvent(LoginEvent.ChangeEmail(it))
                 },
@@ -99,16 +99,17 @@ fun LoginScreen(
                         top = Padding.LARGE,
                         end = Padding.MEDIUM,
                     ),
+                enabled = viewModel.canLogin(),
                 onClick = {
                     viewModel.onEvent(LoginEvent.LoginAction)
                 }) {
                 Text(
-                    text = "Log in".uppercase(),
+                    text = stringResource(R.string.log_in).uppercase(),
                     fontWeight = FontWeight.Bold,
                 )
             }
             val doNotHaveAccount = buildAnnotatedString {
-                append("DON’T HAVE AN ACCOUNT? ")
+                append(stringResource(R.string.don_t_have_an_account))
                 pushStringAnnotation(tag = "click", annotation = "click")
                 withStyle(
                     SpanStyle(
@@ -116,11 +117,10 @@ fun LoginScreen(
                         color = Color.Blue
                     )
                 ) {
-                    append("SIGN UP")
+                    append(stringResource(R.string.sign_up))
                 }
                 pop()
             }
-            val context = LocalContext.current
             Box(
                 modifier = Modifier
                     .fillMaxWidth()

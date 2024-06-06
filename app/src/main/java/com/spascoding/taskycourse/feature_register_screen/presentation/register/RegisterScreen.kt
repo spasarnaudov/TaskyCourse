@@ -28,6 +28,8 @@ import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.FontSize
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
+import com.spascoding.taskycourse.feature_register_screen.presentation.components.CustomOutlinedTextField
+import com.spascoding.taskycourse.feature_register_screen.presentation.components.PasswordOutlinedTextField
 
 @Composable
 fun RegisterScreen(
@@ -66,7 +68,7 @@ fun RegisterScreen(
                     ),
                 value = viewModel.state.value.name,
                 placeholder = stringResource(R.string.name),
-                valid = false,   //TODO add check for email existing
+                valid = viewModel.validName(),
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.ChangeName(it))
                 },
@@ -81,7 +83,7 @@ fun RegisterScreen(
                     ),
                 value = viewModel.state.value.email,
                 placeholder = stringResource(R.string.email_address),
-                valid = true,   //TODO add check for email existing
+                valid = viewModel.validEmail(),
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.ChangeEmailAddress(it))
                 },
@@ -109,6 +111,7 @@ fun RegisterScreen(
                         top = Padding.LARGE,
                         end = Padding.MEDIUM,
                     ),
+                enabled = viewModel.canRegister(),
                 onClick = {
                     viewModel.onEvent(RegisterEvent.RegisterAction)
                 }) {

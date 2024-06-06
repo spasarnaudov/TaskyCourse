@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.spascoding.taskycourse.feature_register_screen.domain.use_case.AuthenticationUseCases
+import com.spascoding.taskycourse.feature_register_screen.util.AuthPattern
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -36,4 +37,9 @@ class LoginViewModel @Inject constructor(
             is LoginEvent.SignUpAction -> {}
         }
     }
+
+    fun validEmail(): Boolean = AuthPattern.EMAIL(state.value.email)
+    fun validPassword(): Boolean = AuthPattern.PASSWORD(state.value.password)
+    fun canLogin(): Boolean = validEmail() && validPassword()
+
 }
