@@ -1,14 +1,16 @@
 package com.spascoding.taskycourse.feature_register_screen.domain.use_case
 
 import android.util.Log
-import com.spascoding.taskycourse.feature_register_screen.data.ApiClient
-import com.spascoding.taskycourse.feature_register_screen.data.model.RegisterRequest
+import com.spascoding.taskycourse.feature_register_screen.data.remote.AuthenticationApi
+import com.spascoding.taskycourse.feature_register_screen.data.remote.model.RegisterRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class RegisterUserUseCase @Inject constructor() {
+class RegisterUserUseCase @Inject constructor(
+    private val authenticationApi: AuthenticationApi
+) {
 
     operator fun invoke(
         name: String,
@@ -17,7 +19,7 @@ class RegisterUserUseCase @Inject constructor() {
         onSuccess: (String, String) -> Unit,
     ) {
         val request = RegisterRequest(name, email, password)
-        ApiClient.apiService.register(request).enqueue(object : Callback<Void> {
+        authenticationApi.register(request).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d(TAG, "Registration successful")

@@ -101,7 +101,9 @@ fun LoginScreen(
                     ),
                 enabled = viewModel.canLogin(),
                 onClick = {
-                    viewModel.onEvent(LoginEvent.LoginAction)
+                    viewModel.onEvent(LoginEvent.LoginAction {
+                        navController.navigate(Navigation.AgendaNavigation.route)
+                    })
                 }) {
                 Text(
                     text = stringResource(R.string.log_in).uppercase(),

@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authenticationUseCases: AuthenticationUseCases
+    private val authenticationUseCases: AuthenticationUseCases,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(LoginViewModelState())
@@ -32,7 +32,9 @@ class LoginViewModel @Inject constructor(
                 authenticationUseCases.loginUser.invoke(
                     email = _state.value.email,
                     password = _state.value.password,
-                )
+                ) {
+                    event.onSuccess.invoke(it.userId)
+                }
             }
             is LoginEvent.SignUpAction -> {}
         }

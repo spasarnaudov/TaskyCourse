@@ -39,12 +39,8 @@ class RegisterViewModel @Inject constructor(
                     email = _state.value.email,
                     password = _state.value.password,
                 ) { email, password ->
-                    authenticationUseCases.loginUser.invoke(email, password) { token ->
-                        authenticationUseCases.authenticateUser.invoke(token) {
-                            authenticationUseCases.logoutUser.invoke(token) {
-
-                            }
-                        }
+                    authenticationUseCases.loginUser.invoke(email, password) {
+                        event.onSuccess.invoke(it.userId)
                     }
                 }
             }

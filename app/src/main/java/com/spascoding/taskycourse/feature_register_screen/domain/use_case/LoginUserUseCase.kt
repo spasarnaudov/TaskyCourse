@@ -1,28 +1,40 @@
 package com.spascoding.taskycourse.feature_register_screen.domain.use_case
 
 import android.util.Log
-import com.spascoding.taskycourse.feature_register_screen.data.ApiClient
-import com.spascoding.taskycourse.feature_register_screen.data.model.LoginRequest
-import com.spascoding.taskycourse.feature_register_screen.data.model.LoginResponse
+import com.spascoding.taskycourse.feature_register_screen.data.local.model.userInfo
+import com.spascoding.taskycourse.feature_register_screen.data.remote.AuthenticationApi
+import com.spascoding.taskycourse.feature_register_screen.data.remote.model.LoginRequest
+import com.spascoding.taskycourse.feature_register_screen.data.remote.model.LoginResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class LoginUserUseCase @Inject constructor() {
+class LoginUserUseCase @Inject constructor(
+    private val authenticationApi: AuthenticationApi
+) {
 
     operator fun invoke(
         email: String,
         password: String,
-        onSuccess: (String) -> Unit = {}
+        onSuccess: (LoginResponse) -> Unit = {}
     ) {
         val request = LoginRequest(email, password)
-        ApiClient.apiService.login(request).enqueue(object : Callback<LoginResponse> {
+        authenticationApi.login(request).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful) {
-                    val authToken = response.body()?.token
-                    Log.d(TAG, "Login successful, token: $authToken")
-                    authToken?.let { onSuccess.invoke(it) }
+                    val loginResponse = response.body() as LoginResponse
+                    userInfo = userInfo.copy(
+                        email = email,
+                        password = password,
+                        accessToken = loginResponse.accessToken,
+                        refreshToken = loginResponse.refreshToken,
+                        fullName = loginResponse.fullName,
+                        userId = loginResponse.userId,
+                        accessTokenExpirationTimestamp = loginResponse.accessTokenExpirationTimestamp,
+                    )
+                    Log.d(TAG, "Login successful, response: $loginResponse")
+                    onSuccess.invoke(response.body() as LoginResponse)
                 } else {
                     Log.e(TAG, "Login failed: ${response.code()}")
                 }

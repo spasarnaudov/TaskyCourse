@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_register_screen.data
+package com.spascoding.taskycourse.feature_register_screen.data.remote
 
 import com.spascoding.taskycourse.core.util.ConfigProperties
 import okhttp3.OkHttpClient

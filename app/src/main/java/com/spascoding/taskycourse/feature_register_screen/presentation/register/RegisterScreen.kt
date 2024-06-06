@@ -30,6 +30,7 @@ import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
 import com.spascoding.taskycourse.feature_register_screen.presentation.components.CustomOutlinedTextField
 import com.spascoding.taskycourse.feature_register_screen.presentation.components.PasswordOutlinedTextField
+import com.spascoding.taskycourse.navigation.Navigation
 
 @Composable
 fun RegisterScreen(
@@ -113,7 +114,9 @@ fun RegisterScreen(
                     ),
                 enabled = viewModel.canRegister(),
                 onClick = {
-                    viewModel.onEvent(RegisterEvent.RegisterAction)
+                    viewModel.onEvent(RegisterEvent.RegisterAction {
+                        navController.navigate(Navigation.AgendaNavigation.route)
+                    })
                 }) {
                 Text(
                     text = stringResource(R.string.get_started).uppercase(),
