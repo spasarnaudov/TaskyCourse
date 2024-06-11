@@ -6,6 +6,7 @@ import com.spascoding.taskycourse.feature_register_screen.data.remote.model.Refr
 import com.spascoding.taskycourse.feature_register_screen.data.remote.model.RefreshTokenResponse
 import com.spascoding.taskycourse.feature_register_screen.data.remote.model.RegisterRequest
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -18,9 +19,9 @@ interface AuthenticationApi {
     ): Call<Void>
 
     @POST("/login")
-    fun login(
+    suspend fun login(
         @Body body: LoginRequest
-    ): Call<LoginResponse>
+    ): Response<LoginResponse>
 
     @POST("/accessToken")
     fun refreshAccessToken(@Body request: RefreshTokenRequest): Call<RefreshTokenResponse>
