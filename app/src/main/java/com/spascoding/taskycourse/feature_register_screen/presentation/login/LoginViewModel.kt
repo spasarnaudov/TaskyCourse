@@ -1,7 +1,8 @@
 package com.spascoding.taskycourse.feature_register_screen.presentation.login
 
-import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.spascoding.taskycourse.feature_register_screen.domain.use_case.AuthenticationUseCases
 import com.spascoding.taskycourse.feature_register_screen.util.AuthPattern
@@ -13,25 +14,25 @@ class LoginViewModel @Inject constructor(
     private val authenticationUseCases: AuthenticationUseCases,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(LoginViewModelState())
-    val state: State<LoginViewModelState> = _state
+    var state by mutableStateOf(LoginViewModelState())
+        private set
 
     fun onEvent(event: LoginEvent) {
         when (event) {
             is LoginEvent.ChangeEmail -> {
-                _state.value = state.value.copy(
+                state = state.copy(
                     email = event.email
                 )
             }
             is LoginEvent.ChangePassword -> {
-                _state.value = state.value.copy(
+                state = state.copy(
                     password = event.password
                 )
             }
             is LoginEvent.LoginAction -> {
                 authenticationUseCases.loginUser.invoke(
-                    email = _state.value.email,
-                    password = _state.value.password,
+                    email = state.email,
+                    password = state.password,
                 ) {
                     event.onSuccess.invoke(it.userId)
                 }
@@ -40,8 +41,8 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun validEmail(): Boolean = AuthPattern.EMAIL(state.value.email)
-    fun validPassword(): Boolean = AuthPattern.PASSWORD(state.value.password)
+    fun validEmail(): Boolean = AuthPattern.EMAIL(state.email)
+    fun validPassword(): Boolean = AuthPattern.PASSWORD(state.password)
     fun canLogin(): Boolean = validEmail() && validPassword()
 
 }

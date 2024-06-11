@@ -69,7 +69,7 @@ fun LoginScreen(
                         top = Padding.MEDIUM,
                         end = Padding.MEDIUM,
                     ),
-                value = viewModel.state.value.email,
+                value = viewModel.state.email,
                 placeholder = stringResource(R.string.email_address),
                 valid = viewModel.validEmail(),
                 onValueChange = {
@@ -84,7 +84,7 @@ fun LoginScreen(
                         top = Padding.MEDIUM,
                         end = Padding.MEDIUM,
                     ),
-                value = viewModel.state.value.password,
+                value = viewModel.state.password,
                 placeholder = stringResource(R.string.password),
                 onValueChange = {
                     viewModel.onEvent(LoginEvent.ChangePassword(it))
