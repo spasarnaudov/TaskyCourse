@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.spascoding.taskycourse.feature_register_screen.domain.use_case.AuthenticationUseCases
-import com.spascoding.taskycourse.feature_register_screen.util.AuthPattern
+import com.spascoding.taskycourse.feature_register_screen.presentation.util.AuthPattern
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

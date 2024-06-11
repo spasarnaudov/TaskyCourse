@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_register_screen.util
+package com.spascoding.taskycourse.feature_register_screen.presentation.util
 
 import android.util.Patterns
 
