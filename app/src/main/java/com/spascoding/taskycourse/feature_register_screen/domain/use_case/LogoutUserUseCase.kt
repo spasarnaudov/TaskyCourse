@@ -1,8 +1,6 @@
 package com.spascoding.taskycourse.feature_register_screen.domain.use_case
 
 import android.util.Log
-import com.spascoding.taskycourse.feature_register_screen.data.local.model.UserInfo
-import com.spascoding.taskycourse.feature_register_screen.data.local.model.userInfo
 import com.spascoding.taskycourse.feature_register_screen.data.remote.AuthenticationApi
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,7 +19,6 @@ class LogoutUserUseCase @Inject constructor(
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     onSuccess.invoke()
-                    userInfo = UserInfo()
                     Log.d(TAG, "Logout successful")
                 } else {
                     Log.e(TAG, "Logout failed: ${response.code()}")

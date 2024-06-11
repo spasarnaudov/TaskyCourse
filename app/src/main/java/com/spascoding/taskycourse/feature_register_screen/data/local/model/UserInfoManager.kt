@@ -35,15 +35,22 @@ class UserInfoManager @Inject constructor(private val context: Context) {
         }
     }
 
-    val userInfoFlow: Flow<UserInfo> = context.dataStore.data.map { preferences ->
+    val userInfoFlow: Flow<UserInfo?> = context.dataStore.data.map { preferences ->
+        val email = preferences[EMAIL_KEY] ?: return@map null
+        val password = preferences[PASSWORD_KEY] ?: return@map null
+        val accessToken = preferences[ACCESS_TOKEN_KEY] ?: return@map null
+        val refreshToken = preferences[REFRESH_TOKEN_KEY] ?: return@map null
+        val fullName = preferences[FULL_NAME_KEY] ?: return@map null
+        val userId = preferences[USER_ID_KEY] ?: return@map null
+        val accessTokenExpirationTimestamp = preferences[ACCESS_TOKEN_EXPIRATION_KEY] ?: return@map null
         UserInfo(
-            email = preferences[EMAIL_KEY] ?: "",
-            password = preferences[PASSWORD_KEY] ?: "",
-            accessToken = preferences[ACCESS_TOKEN_KEY] ?: "",
-            refreshToken = preferences[REFRESH_TOKEN_KEY] ?: "",
-            fullName = preferences[FULL_NAME_KEY] ?: "",
-            userId = preferences[USER_ID_KEY] ?: "",
-            accessTokenExpirationTimestamp = preferences[ACCESS_TOKEN_EXPIRATION_KEY] ?: 0L
+            email = email,
+            password = password,
+            accessToken = accessToken,
+            refreshToken = refreshToken,
+            fullName = fullName,
+            userId = userId,
+            accessTokenExpirationTimestamp = accessTokenExpirationTimestamp
         )
     }
 
