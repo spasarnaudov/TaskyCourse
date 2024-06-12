@@ -2,7 +2,6 @@ package com.spascoding.taskycourse.feature_register_screen.presentation.register
 
 import androidx.lifecycle.ViewModel
 import com.spascoding.taskycourse.feature_register_screen.domain.repository.AuthRepository
-import com.spascoding.taskycourse.feature_register_screen.presentation.util.AuthPattern
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +15,6 @@ import javax.inject.Inject
 class RegisterViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
-
 
     var state = MutableStateFlow(RegisterViewModelState())
         private set
@@ -61,9 +59,4 @@ class RegisterViewModel @Inject constructor(
             is RegisterEvent.BackAction -> {}
         }
     }
-
-    fun validName(): Boolean = AuthPattern.name(state.value.name)
-    fun validEmail(): Boolean = AuthPattern.email(state.value.email)
-    fun validPassword(): Boolean = AuthPattern.password(state.value.password)
-    fun canRegister(): Boolean = validName() && validEmail() && validPassword()
 }
