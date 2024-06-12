@@ -32,7 +32,7 @@ interface AuthenticationApi {
     ): Response<Void>
 
     @GET("/logout")
-    fun logout(
+    suspend fun logout(
         @Header("Authorization") token: String
-    ): Call<Void>
+    ): Response<Void>
 }
