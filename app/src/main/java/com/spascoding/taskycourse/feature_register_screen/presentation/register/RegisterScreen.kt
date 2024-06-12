@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -32,14 +33,44 @@ import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
 import com.spascoding.taskycourse.feature_register_screen.presentation.components.CustomOutlinedTextField
 import com.spascoding.taskycourse.feature_register_screen.presentation.components.PasswordOutlinedTextField
+import com.spascoding.taskycourse.feature_register_screen.presentation.util.AuthPattern
 import com.spascoding.taskycourse.navigation.Navigation
+import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
 
 @Composable
-fun RegisterScreen(
+fun RegisterScreenRoot(
     navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val onNavigationEvent: (RegisterEvent) -> Unit = { event ->
+        when (event) {
+            is RegisterEvent.BackAction -> {
+                navController.popBackStack()
+            }
+            is RegisterEvent.RegisterAction -> {
+                navController.navigate(Navigation.AgendaNavigation.route)
+            }
+            else -> viewModel.onEvent(event)
+        }
+    }
+    RegisterScreen(
+        state = state,
+        onEvent = onNavigationEvent
+    )
+}
+
+@Composable
+private fun RegisterScreen(
+    state: RegisterViewModelState,
+    onEvent: (RegisterEvent) -> Unit
+) {
+    val validName: Boolean = AuthPattern.name(state.name)
+    val validEmail: Boolean = AuthPattern.email(state.email)
+    val validPassword: Boolean = AuthPattern.password(state.password)
+    val canRegister: Boolean = validName && validEmail && validPassword
+
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary),
@@ -72,9 +103,9 @@ fun RegisterScreen(
                     ),
                 value = state.name,
                 placeholder = stringResource(R.string.name),
-                valid = viewModel.validName(),
+                valid = validName,
                 onValueChange = {
-                    viewModel.onEvent(RegisterEvent.ChangeName(it))
+                    onEvent(RegisterEvent.ChangeName(it))
                 },
             )
             CustomOutlinedTextField(
@@ -87,9 +118,9 @@ fun RegisterScreen(
                     ),
                 value = state.email,
                 placeholder = stringResource(R.string.email_address),
-                valid = viewModel.validEmail(),
+                valid = validEmail,
                 onValueChange = {
-                    viewModel.onEvent(RegisterEvent.ChangeEmailAddress(it))
+                    onEvent(RegisterEvent.ChangeEmailAddress(it))
                 },
             )
             PasswordOutlinedTextField(
@@ -103,7 +134,7 @@ fun RegisterScreen(
                 value = state.password,
                 placeholder = stringResource(R.string.password),
                 onValueChange = {
-                    viewModel.onEvent(RegisterEvent.ChangePassword(it))
+                    onEvent(RegisterEvent.ChangePassword(it))
                 },
             )
             Button(
@@ -115,11 +146,9 @@ fun RegisterScreen(
                         top = Padding.LARGE,
                         end = Padding.MEDIUM,
                     ),
-                enabled = viewModel.canRegister(),
+                enabled = canRegister,
                 onClick = {
-                    viewModel.onEvent(RegisterEvent.RegisterAction {
-                        navController.navigate(Navigation.AgendaNavigation.route)
-                    })
+                    onEvent(RegisterEvent.RegisterAction)
                 }) {
                 Text(
                     text = stringResource(R.string.get_started).uppercase(),
@@ -139,8 +168,7 @@ fun RegisterScreen(
                         .padding(Padding.MEDIUM),
                     shape = RoundedCornerShape(RoundCorner.MEDIUM),
                     onClick = {
-                        navController.popBackStack()
-                        viewModel.onEvent(RegisterEvent.BackAction)
+                        onEvent(RegisterEvent.BackAction)
                     }) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowLeft,
@@ -150,5 +178,31 @@ fun RegisterScreen(
             }
 
         }
+    }
+}
+
+@Composable
+fun PreviewRegisterScreen() {
+    val sampleState = RegisterViewModelState(
+        name = "test name",
+        email = "test email",
+        password = "test password",
+    )
+
+    val mockOnEvent: (RegisterEvent) -> Unit = { event ->
+        // Handle the event or leave it empty for the preview
+    }
+
+    RegisterScreen(
+        state = sampleState,
+        onEvent = mockOnEvent
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview() {
+    TaskyCourseTheme {
+        PreviewRegisterScreen()
     }
 }
