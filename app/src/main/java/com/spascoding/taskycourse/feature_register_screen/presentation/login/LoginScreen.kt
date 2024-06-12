@@ -32,7 +32,7 @@ import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.FontSize
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
-import com.spascoding.taskycourse.feature_register_screen.presentation.components.CustomOutlinedTextField
+import com.spascoding.taskycourse.feature_register_screen.presentation.components.DefaultTextField
 import com.spascoding.taskycourse.feature_register_screen.presentation.components.PasswordOutlinedTextField
 import com.spascoding.taskycourse.feature_register_screen.presentation.util.AuthPattern
 import com.spascoding.taskycourse.navigation.Navigation
@@ -89,7 +89,7 @@ private fun LoginScreen(
                     )
                 ),
         ) {
-            CustomOutlinedTextField(
+            DefaultTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(

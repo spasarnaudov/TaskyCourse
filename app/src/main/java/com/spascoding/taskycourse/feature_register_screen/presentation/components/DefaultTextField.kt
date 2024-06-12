@@ -26,7 +26,7 @@ import com.spascoding.taskycourse.core.constants.RoundCorner
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomOutlinedTextField(
+fun DefaultTextField(
     value: String,
     placeholder: String,
     valid: Boolean,
