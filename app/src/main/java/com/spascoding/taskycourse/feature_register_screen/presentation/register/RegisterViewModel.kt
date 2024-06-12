@@ -1,11 +1,10 @@
 package com.spascoding.taskycourse.feature_register_screen.presentation.register
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.spascoding.taskycourse.feature_register_screen.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -19,7 +18,6 @@ class RegisterViewModel @Inject constructor(
     var state = MutableStateFlow(RegisterViewModelState())
         private set
 
-    @OptIn(DelicateCoroutinesApi::class)
     fun onEvent(event: RegisterEvent) {
         when (event) {
             is RegisterEvent.ChangeName -> {
@@ -41,14 +39,14 @@ class RegisterViewModel @Inject constructor(
             }
 
             is RegisterEvent.RegisterAction -> {
-                GlobalScope.launch(Dispatchers.IO) {
+                viewModelScope.launch(Dispatchers.IO) {
                     val registerResponse = authRepository.register(
                         name = state.value.name,
                         email = state.value.email,
                         password = state.value.password,
                     )
                     if (registerResponse.isSuccessful) {
-                        val response = authRepository.login(
+                        authRepository.login(
                             email = state.value.email,
                             password = state.value.password,
                         )
