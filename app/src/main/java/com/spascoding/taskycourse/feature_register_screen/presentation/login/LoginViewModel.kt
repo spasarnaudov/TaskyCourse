@@ -50,9 +50,4 @@ class LoginViewModel @Inject constructor(
             is LoginEvent.SignUpAction -> {}
         }
     }
-
-    fun validEmail(): Boolean = AuthPattern.EMAIL(state.value.email)
-    fun validPassword(): Boolean = AuthPattern.PASSWORD(state.value.password)
-    fun canLogin(): Boolean = validEmail() && validPassword()
-
 }

@@ -23,6 +23,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -33,14 +34,39 @@ import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
 import com.spascoding.taskycourse.feature_register_screen.presentation.components.CustomOutlinedTextField
 import com.spascoding.taskycourse.feature_register_screen.presentation.components.PasswordOutlinedTextField
+import com.spascoding.taskycourse.feature_register_screen.presentation.util.AuthPattern
 import com.spascoding.taskycourse.navigation.Navigation
+import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
 
 @Composable
-fun LoginScreen(
+fun LoginScreenRoot(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val onNavigationEvent: (LoginEvent) -> Unit = { event ->
+        when (event) {
+            is LoginEvent.SignUpAction -> navController.navigate(Navigation.RegisterNavigation.route)
+            else -> viewModel.onEvent(event)
+        }
+    }
+
+    LoginScreen(
+        state = state,
+        onEvent = onNavigationEvent
+    )
+}
+
+@Composable
+private fun LoginScreen(
+    state: LoginViewModelState,
+    onEvent: (LoginEvent) -> Unit
+) {
+    val validEmail: Boolean = AuthPattern.email(state.email)
+    val validPassword: Boolean = AuthPattern.password(state.password)
+    val canLogin: Boolean = validEmail && validPassword
+
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary),
@@ -73,9 +99,9 @@ fun LoginScreen(
                     ),
                 value = state.email,
                 placeholder = stringResource(R.string.email_address),
-                valid = viewModel.validEmail(),
+                valid = validEmail,
                 onValueChange = {
-                    viewModel.onEvent(LoginEvent.ChangeEmail(it))
+                    onEvent(LoginEvent.ChangeEmail(it))
                 },
             )
             PasswordOutlinedTextField(
@@ -89,7 +115,7 @@ fun LoginScreen(
                 value = state.password,
                 placeholder = stringResource(R.string.password),
                 onValueChange = {
-                    viewModel.onEvent(LoginEvent.ChangePassword(it))
+                    onEvent(LoginEvent.ChangePassword(it))
                 },
             )
             Button(
@@ -101,8 +127,8 @@ fun LoginScreen(
                         top = Padding.LARGE,
                         end = Padding.MEDIUM,
                     ),
-                enabled = viewModel.canLogin(),
-                onClick = { viewModel.onEvent(LoginEvent.LoginAction) }) {
+                enabled = canLogin,
+                onClick = { onEvent(LoginEvent.LoginAction) }) {
                 Text(
                     text = stringResource(R.string.log_in).uppercase(),
                     fontWeight = FontWeight.Bold,
@@ -137,11 +163,35 @@ fun LoginScreen(
                         end = offset
                     ).firstOrNull()
                         ?.let {
-                            navController.navigate(Navigation.RegisterNavigation.route)
-                            viewModel.onEvent(LoginEvent.SignUpAction)
+                            onEvent(LoginEvent.SignUpAction)
                         }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun PreviewLoginScreen() {
+    val sampleState = LoginViewModelState(
+        email = "test email",
+        password = "test password",
+    )
+
+    val mockOnEvent: (LoginEvent) -> Unit = { event ->
+        // Handle the event or leave it empty for the preview
+    }
+
+    LoginScreen(
+        state = sampleState,
+        onEvent = mockOnEvent
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview() {
+    TaskyCourseTheme {
+        PreviewLoginScreen()
     }
 }

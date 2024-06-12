@@ -62,8 +62,8 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    fun validName(): Boolean = AuthPattern.NAME(state.value.name)
-    fun validEmail(): Boolean = AuthPattern.EMAIL(state.value.email)
-    fun validPassword(): Boolean = AuthPattern.PASSWORD(state.value.password)
+    fun validName(): Boolean = AuthPattern.name(state.value.name)
+    fun validEmail(): Boolean = AuthPattern.email(state.value.email)
+    fun validPassword(): Boolean = AuthPattern.password(state.value.password)
     fun canRegister(): Boolean = validName() && validEmail() && validPassword()
 }

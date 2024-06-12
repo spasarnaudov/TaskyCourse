@@ -9,8 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.spascoding.taskycourse.feature_agenda_screen.presentation.agenda.AgendaScreen
-import com.spascoding.taskycourse.feature_register_screen.data.local.model.UserInfo
-import com.spascoding.taskycourse.feature_register_screen.presentation.login.LoginScreen
+import com.spascoding.taskycourse.feature_register_screen.presentation.login.LoginScreenRoot
 import com.spascoding.taskycourse.feature_register_screen.presentation.register.RegisterScreen
 
 @Composable
@@ -30,7 +29,7 @@ fun NavController(
         startDestination = startDestination,
     ) {
         composable(route = Navigation.LoginNavigation.route) {
-            LoginScreen(navController)
+            LoginScreenRoot(navController)
         }
         composable(route = Navigation.RegisterNavigation.route) {
             RegisterScreen(navController)
