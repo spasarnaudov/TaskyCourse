@@ -27,9 +27,9 @@ interface AuthenticationApi {
     fun refreshAccessToken(@Body request: RefreshTokenRequest): Call<RefreshTokenResponse>
 
     @GET("/authenticate")
-    fun authenticate(
+    suspend fun authenticate(
         @Header("Authorization") token: String
-    ): Call<Void>
+    ): Response<Void>
 
     @GET("/logout")
     fun logout(

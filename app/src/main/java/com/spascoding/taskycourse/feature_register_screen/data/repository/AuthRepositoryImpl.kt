@@ -14,6 +14,7 @@ class AuthRepositoryImpl @Inject constructor(
     private val authenticationApi: AuthenticationApi,
     private val userInfoManager: UserInfoManager,
 ) : AuthRepository {
+
     override suspend fun register(
         name: String,
         email: String,
@@ -45,11 +46,15 @@ class AuthRepositoryImpl @Inject constructor(
         return response
     }
 
-    override fun authenticate() {
-        TODO("Not yet implemented")
+    override suspend fun authenticate(
+        token: String
+    ): Boolean {
+        val response = authenticationApi.authenticate(token)
+        return response.isSuccessful && response.code() == 200
     }
 
     override fun logout() {
+        //implement clear of userInfo
         TODO("Not yet implemented")
     }
 }
