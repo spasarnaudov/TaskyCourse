@@ -47,7 +47,7 @@ fun RegisterScreenRoot(
     val onNavigationEvent: (RegisterEvent) -> Unit = { event ->
         when (event) {
             is RegisterEvent.BackAction -> {
-                navController.popBackStack()
+                navController.navigateUp()
             }
             is RegisterEvent.RegisterAction -> {
                 navController.navigate(Navigation.AgendaNavigation.route)
