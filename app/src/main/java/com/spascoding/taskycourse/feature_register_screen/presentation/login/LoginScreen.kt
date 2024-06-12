@@ -100,11 +100,7 @@ fun LoginScreen(
                         end = Padding.MEDIUM,
                     ),
                 enabled = viewModel.canLogin(),
-                onClick = {
-                    viewModel.onEvent(LoginEvent.LoginAction {
-                        navController.navigate(Navigation.AgendaNavigation.route)
-                    })
-                }) {
+                onClick = { viewModel.onEvent(LoginEvent.LoginAction) }) {
                 Text(
                     text = stringResource(R.string.log_in).uppercase(),
                     fontWeight = FontWeight.Bold,
@@ -133,7 +129,11 @@ fun LoginScreen(
                 ClickableText(
                     text = doNotHaveAccount,
                 ) { offset ->
-                    doNotHaveAccount.getStringAnnotations(tag = "click", start = offset, end = offset).firstOrNull()
+                    doNotHaveAccount.getStringAnnotations(
+                        tag = "click",
+                        start = offset,
+                        end = offset
+                    ).firstOrNull()
                         ?.let {
                             navController.navigate(Navigation.RegisterNavigation.route)
                             viewModel.onEvent(LoginEvent.SignUpAction)

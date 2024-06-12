@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.spascoding.taskycourse.feature_register_screen.domain.use_case.AuthenticationUseCases
 import com.spascoding.taskycourse.feature_register_screen.presentation.util.AuthPattern
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,6 +20,7 @@ class RegisterViewModel @Inject constructor(
     private val _state = mutableStateOf(RegisterViewModelState())
     val state: State<RegisterViewModelState> = _state
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun onEvent(event: RegisterEvent) {
         when (event) {
             is RegisterEvent.ChangeName -> {
@@ -39,8 +44,14 @@ class RegisterViewModel @Inject constructor(
                     email = _state.value.email,
                     password = _state.value.password,
                 ) { email, password ->
-                    authenticationUseCases.loginUser.invoke(email, password) {
-                        event.onSuccess.invoke(it.userId)
+                    GlobalScope.launch(Dispatchers.IO) {
+                        val response = authenticationUseCases.loginUser.invoke(
+                            email = email,
+                            password = password,
+                        )
+                        if (response.isSuccessful) {
+                            event.onSuccess.invoke("")
+                        }
                     }
                 }
             }
