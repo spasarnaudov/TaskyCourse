@@ -1,7 +1,5 @@
 package com.spascoding.taskycourse.feature_register_screen.presentation.register
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.spascoding.taskycourse.feature_register_screen.domain.use_case.AuthenticationUseCases
 import com.spascoding.taskycourse.feature_register_screen.presentation.util.AuthPattern
@@ -9,6 +7,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,44 +17,47 @@ class RegisterViewModel @Inject constructor(
     private val authenticationUseCases: AuthenticationUseCases
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(RegisterViewModelState())
-    val state: State<RegisterViewModelState> = _state
+
+    var state = MutableStateFlow(RegisterViewModelState())
+        private set
 
     @OptIn(DelicateCoroutinesApi::class)
     fun onEvent(event: RegisterEvent) {
         when (event) {
             is RegisterEvent.ChangeName -> {
-                _state.value = state.value.copy(
-                    name = event.name
-                )
+                state.update {
+                    it.copy(name = event.name)
+                }
             }
+
             is RegisterEvent.ChangeEmailAddress -> {
-                _state.value = state.value.copy(
-                    email = event.email
-                )
+                state.update {
+                    it.copy(email = event.email)
+                }
             }
+
             is RegisterEvent.ChangePassword -> {
-                _state.value = state.value.copy(
-                    password = event.password
-                )
+                state.update {
+                    it.copy(password = event.password)
+                }
             }
+
             is RegisterEvent.RegisterAction -> {
-                authenticationUseCases.registerUser.invoke(
-                    name = _state.value.name,
-                    email = _state.value.email,
-                    password = _state.value.password,
-                ) { email, password ->
-                    GlobalScope.launch(Dispatchers.IO) {
+                GlobalScope.launch(Dispatchers.IO) {
+                    val registerResponse = authenticationUseCases.registerUser.invoke(
+                        name = state.value.name,
+                        email = state.value.email,
+                        password = state.value.password,
+                    )
+                    if (registerResponse.isSuccessful) {
                         val response = authenticationUseCases.loginUser.invoke(
-                            email = email,
-                            password = password,
+                            email = state.value.email,
+                            password = state.value.password,
                         )
-                        if (response.isSuccessful) {
-                            event.onSuccess.invoke("")
-                        }
                     }
                 }
             }
+
             is RegisterEvent.BackAction -> {}
         }
     }

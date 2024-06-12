@@ -5,6 +5,7 @@ import com.spascoding.taskycourse.feature_register_screen.data.local.model.UserI
 import com.spascoding.taskycourse.feature_register_screen.data.remote.AuthenticationApi
 import com.spascoding.taskycourse.feature_register_screen.data.remote.model.LoginRequest
 import com.spascoding.taskycourse.feature_register_screen.data.remote.model.LoginResponse
+import com.spascoding.taskycourse.feature_register_screen.data.remote.model.RegisterRequest
 import com.spascoding.taskycourse.feature_register_screen.domain.repository.AuthRepository
 import retrofit2.Response
 import javax.inject.Inject
@@ -13,8 +14,13 @@ class AuthRepositoryImpl @Inject constructor(
     private val authenticationApi: AuthenticationApi,
     private val userInfoManager: UserInfoManager,
 ) : AuthRepository {
-    override fun register() {
-        TODO("Not yet implemented")
+    override suspend fun register(
+        name: String,
+        email: String,
+        password: String,
+    ): Response<Void> {
+        val request = RegisterRequest(name, email, password)
+        return authenticationApi.register(request)
     }
 
     override suspend fun login(

@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.FontSize
@@ -37,6 +39,7 @@ fun RegisterScreen(
     navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary),
@@ -67,7 +70,7 @@ fun RegisterScreen(
                         top = Padding.LARGE,
                         end = Padding.MEDIUM,
                     ),
-                value = viewModel.state.value.name,
+                value = state.name,
                 placeholder = stringResource(R.string.name),
                 valid = viewModel.validName(),
                 onValueChange = {
@@ -82,7 +85,7 @@ fun RegisterScreen(
                         top = Padding.MEDIUM,
                         end = Padding.MEDIUM,
                     ),
-                value = viewModel.state.value.email,
+                value = state.email,
                 placeholder = stringResource(R.string.email_address),
                 valid = viewModel.validEmail(),
                 onValueChange = {
@@ -97,7 +100,7 @@ fun RegisterScreen(
                         top = Padding.MEDIUM,
                         end = Padding.MEDIUM,
                     ),
-                value = viewModel.state.value.password,
+                value = state.password,
                 placeholder = stringResource(R.string.password),
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.ChangePassword(it))

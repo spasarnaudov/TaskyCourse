@@ -13,10 +13,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.FontSize
@@ -39,6 +40,7 @@ fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary),
@@ -69,7 +71,7 @@ fun LoginScreen(
                         top = Padding.MEDIUM,
                         end = Padding.MEDIUM,
                     ),
-                value = viewModel.state.email,
+                value = state.email,
                 placeholder = stringResource(R.string.email_address),
                 valid = viewModel.validEmail(),
                 onValueChange = {
@@ -84,7 +86,7 @@ fun LoginScreen(
                         top = Padding.MEDIUM,
                         end = Padding.MEDIUM,
                     ),
-                value = viewModel.state.password,
+                value = state.password,
                 placeholder = stringResource(R.string.password),
                 onValueChange = {
                     viewModel.onEvent(LoginEvent.ChangePassword(it))

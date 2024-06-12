@@ -1,9 +1,6 @@
 package com.spascoding.taskycourse.feature_register_screen.presentation.login
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.spascoding.taskycourse.feature_register_screen.domain.use_case.AuthenticationUseCases
 import com.spascoding.taskycourse.feature_register_screen.domain.use_case.TAG
@@ -12,6 +9,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,27 +19,27 @@ class LoginViewModel @Inject constructor(
     private val authenticationUseCases: AuthenticationUseCases,
 ) : ViewModel() {
 
-    var state by mutableStateOf(LoginViewModelState())
+    var state = MutableStateFlow(LoginViewModelState())
         private set
 
     @OptIn(DelicateCoroutinesApi::class)
     fun onEvent(event: LoginEvent) {
         when (event) {
             is LoginEvent.ChangeEmail -> {
-                state = state.copy(
-                    email = event.email
-                )
+                state.update {
+                    it.copy(email = event.email)
+                }
             }
             is LoginEvent.ChangePassword -> {
-                state = state.copy(
-                    password = event.password
-                )
+                state.update {
+                    it.copy(password = event.password)
+                }
             }
             is LoginEvent.LoginAction -> {
                 GlobalScope.launch(Dispatchers.IO) {
                     val response = authenticationUseCases.loginUser.invoke(
-                        email = state.email,
-                        password = state.password,
+                        email = state.value.email,
+                        password = state.value.password,
                     )
                     if (response.isSuccessful.not()) {
                         //TODO show error in dialog
@@ -52,8 +51,8 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun validEmail(): Boolean = AuthPattern.EMAIL(state.email)
-    fun validPassword(): Boolean = AuthPattern.PASSWORD(state.password)
+    fun validEmail(): Boolean = AuthPattern.EMAIL(state.value.email)
+    fun validPassword(): Boolean = AuthPattern.PASSWORD(state.value.password)
     fun canLogin(): Boolean = validEmail() && validPassword()
 
 }
