@@ -17,18 +17,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
-import com.spascoding.taskycourse.navigation.Navigation
+import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
 
 @Composable
-fun AgendaScreen(
-    navController: NavController,
+fun AgendaScreenRoot(
     viewModel: AgendaViewModel = hiltViewModel(),
+) {
+    AgendaScreen(onEvent = viewModel::onEvent)
+}
+
+@Composable
+private fun AgendaScreen(
+    onEvent: (AgendaEvent) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -46,9 +52,7 @@ fun AgendaScreen(
                         end = Padding.MEDIUM,
                     ),
                 onClick = {
-                    viewModel.onEvent(AgendaEvent.LogoutAction {
-                        navController.navigate(Navigation.LoginNavigation.route)
-                    })
+                    onEvent(AgendaEvent.LogoutAction)
                 }) {
                 Text(
                     text = stringResource(R.string.log_in).uppercase(),
@@ -68,5 +72,24 @@ fun AgendaScreen(
                 ),
         ) {
         }
+    }
+}
+
+@Composable
+fun PreviewAgendaScreen() {
+    val mockOnEvent: (AgendaEvent) -> Unit = { event ->
+        // Handle the event or leave it empty for the preview
+    }
+
+    AgendaScreen(
+        onEvent = mockOnEvent
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview() {
+    TaskyCourseTheme {
+        PreviewAgendaScreen()
     }
 }
