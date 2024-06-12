@@ -2,7 +2,7 @@ package com.spascoding.taskycourse.feature_register_screen.presentation.login
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.spascoding.taskycourse.feature_register_screen.domain.use_case.AuthenticationUseCases
+import com.spascoding.taskycourse.feature_register_screen.domain.repository.AuthRepository
 import com.spascoding.taskycourse.feature_register_screen.domain.use_case.TAG
 import com.spascoding.taskycourse.feature_register_screen.presentation.util.AuthPattern
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authenticationUseCases: AuthenticationUseCases,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
     var state = MutableStateFlow(LoginViewModelState())
@@ -37,7 +37,7 @@ class LoginViewModel @Inject constructor(
             }
             is LoginEvent.LoginAction -> {
                 GlobalScope.launch(Dispatchers.IO) {
-                    val response = authenticationUseCases.loginUser.invoke(
+                    val response = authRepository.login(
                         email = state.value.email,
                         password = state.value.password,
                     )

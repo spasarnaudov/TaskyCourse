@@ -1,7 +1,7 @@
 package com.spascoding.taskycourse.feature_register_screen.presentation.register
 
 import androidx.lifecycle.ViewModel
-import com.spascoding.taskycourse.feature_register_screen.domain.use_case.AuthenticationUseCases
+import com.spascoding.taskycourse.feature_register_screen.domain.repository.AuthRepository
 import com.spascoding.taskycourse.feature_register_screen.presentation.util.AuthPattern
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val authenticationUseCases: AuthenticationUseCases
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
 
@@ -44,13 +44,13 @@ class RegisterViewModel @Inject constructor(
 
             is RegisterEvent.RegisterAction -> {
                 GlobalScope.launch(Dispatchers.IO) {
-                    val registerResponse = authenticationUseCases.registerUser.invoke(
+                    val registerResponse = authRepository.register(
                         name = state.value.name,
                         email = state.value.email,
                         password = state.value.password,
                     )
                     if (registerResponse.isSuccessful) {
-                        val response = authenticationUseCases.loginUser.invoke(
+                        val response = authRepository.login(
                             email = state.value.email,
                             password = state.value.password,
                         )

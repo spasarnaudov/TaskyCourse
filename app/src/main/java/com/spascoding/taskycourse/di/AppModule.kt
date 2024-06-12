@@ -8,9 +8,7 @@ import com.spascoding.taskycourse.feature_register_screen.data.repository.AuthRe
 import com.spascoding.taskycourse.feature_register_screen.domain.repository.AuthRepository
 import com.spascoding.taskycourse.feature_register_screen.domain.use_case.AuthenticateUserUseCase
 import com.spascoding.taskycourse.feature_register_screen.domain.use_case.AuthenticationUseCases
-import com.spascoding.taskycourse.feature_register_screen.domain.use_case.LoginUserUseCase
 import com.spascoding.taskycourse.feature_register_screen.domain.use_case.LogoutUserUseCase
-import com.spascoding.taskycourse.feature_register_screen.domain.use_case.RegisterUserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,15 +24,11 @@ object AppModule {
     @Singleton
     fun provideAuthenticationUseCases(
         authenticateUser: AuthenticateUserUseCase,
-        loginUser: LoginUserUseCase,
         logoutUser: LogoutUserUseCase,
-        registerUser: RegisterUserUseCase,
     ): AuthenticationUseCases {
         return AuthenticationUseCases(
             authenticateUser,
-            loginUser,
             logoutUser,
-            registerUser,
         )
     }
 

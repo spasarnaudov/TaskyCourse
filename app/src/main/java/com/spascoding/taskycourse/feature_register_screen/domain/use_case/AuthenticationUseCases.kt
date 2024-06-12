@@ -6,9 +6,7 @@ const val TAG = "AuthenticationUseCases"
 
 data class AuthenticationUseCases @Inject constructor(
     val authenticateUser: AuthenticateUserUseCase,
-    val loginUser: LoginUserUseCase,
     val logoutUser: LogoutUserUseCase,
-    val registerUser: RegisterUserUseCase,
 ) {
 
 }
