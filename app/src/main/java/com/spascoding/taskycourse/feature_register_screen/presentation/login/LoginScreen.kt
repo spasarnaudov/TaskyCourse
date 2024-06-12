@@ -63,8 +63,8 @@ private fun LoginScreen(
     state: LoginViewModelState,
     onEvent: (LoginEvent) -> Unit
 ) {
-    val validEmail: Boolean = AuthPattern.email(state.email)
-    val validPassword: Boolean = AuthPattern.password(state.password)
+    val validEmail: Boolean = AuthPattern.isValidEmail(state.email)
+    val validPassword: Boolean = AuthPattern.isValidPassword(state.password)
     val canLogin: Boolean = validEmail && validPassword
 
     Column(

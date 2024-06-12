@@ -66,9 +66,9 @@ private fun RegisterScreen(
     state: RegisterViewModelState,
     onEvent: (RegisterEvent) -> Unit
 ) {
-    val validName: Boolean = AuthPattern.name(state.name)
-    val validEmail: Boolean = AuthPattern.email(state.email)
-    val validPassword: Boolean = AuthPattern.password(state.password)
+    val validName: Boolean = AuthPattern.isValidName(state.name)
+    val validEmail: Boolean = AuthPattern.isValidEmail(state.email)
+    val validPassword: Boolean = AuthPattern.isValidPassword(state.password)
     val canRegister: Boolean = validName && validEmail && validPassword
 
     Column(
