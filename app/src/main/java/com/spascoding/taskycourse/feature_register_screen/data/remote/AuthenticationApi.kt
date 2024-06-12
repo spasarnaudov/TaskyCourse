@@ -14,9 +14,9 @@ import retrofit2.http.POST
 
 interface AuthenticationApi {
     @POST("/register")
-    fun register(
+    suspend fun register(
         @Body body: RegisterRequest
-    ): Call<Void>
+    ): Response<Void>
 
     @POST("/login")
     suspend fun login(

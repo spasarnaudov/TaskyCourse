@@ -7,9 +7,10 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.spascoding.taskycourse.navigation.NavController
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,13 +31,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TaskyCourseTheme {
-                val state = viewModel.state.collectAsState()
+                val state by viewModel.state.collectAsStateWithLifecycle()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    if (state.value.isReady) {
-                        NavController(state.value.isAuthenticated)
+                    if (state.isReady) {
+                        NavController(state.isAuthenticated)
                     }
                 }
             }

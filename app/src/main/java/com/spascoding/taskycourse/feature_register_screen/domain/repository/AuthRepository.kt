@@ -4,7 +4,11 @@ import com.spascoding.taskycourse.feature_register_screen.data.remote.model.Logi
 import retrofit2.Response
 
 interface AuthRepository {
-    fun register()
+    suspend fun register(
+        name: String,
+        email: String,
+        password: String,
+    ): Response<Void>
     suspend fun login(
         email: String,
         password: String,
