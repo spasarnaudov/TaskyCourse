@@ -1,10 +1,7 @@
 package com.spascoding.taskycourse.feature_register_screen.presentation.login
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.spascoding.taskycourse.feature_register_screen.domain.repository.AuthRepository
-import com.spascoding.taskycourse.feature_register_screen.domain.use_case.TAG
-import com.spascoding.taskycourse.feature_register_screen.presentation.util.AuthPattern
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +40,6 @@ class LoginViewModel @Inject constructor(
                     )
                     if (response.isSuccessful.not()) {
                         //TODO show error in dialog
-                        Log.e(TAG, response.code().toString())
                     }
                 }
             }

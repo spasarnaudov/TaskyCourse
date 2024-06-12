@@ -53,8 +53,10 @@ class AuthRepositoryImpl @Inject constructor(
         return response.isSuccessful && response.code() == 200
     }
 
-    override fun logout() {
-        //implement clear of userInfo
-        TODO("Not yet implemented")
+    override suspend fun logout(token: String) {
+        val response = authenticationApi.logout("Bearer $token")
+        if (response.isSuccessful) {
+            userInfoManager.clearUserInfo()
+        }
     }
 }
