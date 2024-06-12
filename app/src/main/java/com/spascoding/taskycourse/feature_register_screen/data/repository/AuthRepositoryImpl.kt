@@ -50,7 +50,7 @@ class AuthRepositoryImpl @Inject constructor(
         token: String
     ): Boolean {
         val response = authenticationApi.authenticate(token)
-        return response.isSuccessful && response.code() == 200
+        return response.isSuccessful
     }
 
     override suspend fun logout(token: String) {
