@@ -1,11 +1,10 @@
 package com.spascoding.taskycourse.feature_register_screen.presentation.login
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.spascoding.taskycourse.feature_register_screen.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -19,7 +18,6 @@ class LoginViewModel @Inject constructor(
     var state = MutableStateFlow(LoginViewModelState())
         private set
 
-    @OptIn(DelicateCoroutinesApi::class)
     fun onEvent(event: LoginEvent) {
         when (event) {
             is LoginEvent.ChangeEmail -> {
@@ -33,12 +31,12 @@ class LoginViewModel @Inject constructor(
                 }
             }
             is LoginEvent.LoginAction -> {
-                GlobalScope.launch(Dispatchers.IO) {
+                viewModelScope.launch(Dispatchers.IO) {
                     val response = authRepository.login(
                         email = state.value.email,
                         password = state.value.password,
                     )
-                    if (response.isSuccessful.not()) {
+                    if (!response.isSuccessful) {
                         //TODO show error in dialog
                     }
                 }
