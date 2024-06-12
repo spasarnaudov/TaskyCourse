@@ -2,7 +2,6 @@ package com.spascoding.taskycourse
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spascoding.taskycourse.feature_register_screen.data.local.model.UserInfo
 import com.spascoding.taskycourse.feature_register_screen.data.local.model.UserInfoManager
 import com.spascoding.taskycourse.ui.theme.MainState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +27,7 @@ class MainViewModel @Inject constructor(
                 state.update {
                     it.copy(
                         isReady = true,
-                        isAuthenticated = userInfo != UserInfo(),
+                        isAuthenticated = userInfo != null,
                     )
                 }
             }
