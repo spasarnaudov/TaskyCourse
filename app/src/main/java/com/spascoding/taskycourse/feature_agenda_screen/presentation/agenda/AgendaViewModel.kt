@@ -21,7 +21,6 @@ class AgendaViewModel @Inject constructor(
                     userInfoManager.userInfoFlow.collect { userInfo ->
                         if (userInfo != null) {
                             authenticationUseCases.logoutUser.invoke(userInfo.accessToken) {
-                                event.onSuccess.invoke()
                                 viewModelScope.launch {
                                     userInfoManager.clearUserInfo()
                                 }
