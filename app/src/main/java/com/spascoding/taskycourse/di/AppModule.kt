@@ -1,11 +1,11 @@
 package com.spascoding.taskycourse.di
 
 import android.content.Context
-import com.spascoding.taskycourse.feature_register_screen.data.local.model.UserInfoManager
-import com.spascoding.taskycourse.feature_register_screen.data.remote.AuthenticationApi
-import com.spascoding.taskycourse.feature_register_screen.data.remote.TaskyClient
-import com.spascoding.taskycourse.feature_register_screen.data.repository.AuthRepositoryImpl
-import com.spascoding.taskycourse.feature_register_screen.domain.repository.AuthRepository
+import com.spascoding.taskycourse.feature_auth.data.local.model.UserInfoManager
+import com.spascoding.taskycourse.feature_auth.data.remote.AuthenticationApi
+import com.spascoding.taskycourse.feature_auth.data.remote.TaskyClient
+import com.spascoding.taskycourse.feature_auth.data.repository.AuthRepositoryImpl
+import com.spascoding.taskycourse.feature_auth.domain.repository.AuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
