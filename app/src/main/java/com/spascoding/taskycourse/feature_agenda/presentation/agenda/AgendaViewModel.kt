@@ -11,18 +11,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AgendaViewModel @Inject constructor(
+    //TODO remove AuthRepository
     private val authRepository: AuthRepository,
-    private val userInfoManager: UserInfoManager,
 ) : ViewModel() {
 
     fun onEvent(event: AgendaEvent) {
         when (event) {
             is AgendaEvent.LogoutAction -> {
                 viewModelScope.launch {
-                    val userInfo = userInfoManager.userInfoFlow.first()
-                    if (userInfo != null) {
-                        authRepository.logout(userInfo.accessToken)
-                    }
+                    authRepository.logout()
                 }
             }
         }

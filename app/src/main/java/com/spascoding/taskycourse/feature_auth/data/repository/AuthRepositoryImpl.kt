@@ -8,6 +8,7 @@ import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginRequest
 import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginResponse
 import com.spascoding.taskycourse.feature_auth.data.remote.model.RegisterRequest
 import com.spascoding.taskycourse.feature_auth.domain.repository.AuthRepository
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -47,17 +48,19 @@ class AuthRepositoryImpl @Inject constructor(
         return Result.Success(response.body()!!)
     }
 
-    override suspend fun authenticate(
-        token: String
-    ): Boolean {
-        val response = authenticationApi.authenticate(token)
+    override suspend fun authenticate(): Boolean {
+        val userInfo = userInfoManager.userInfoFlow.first() ?: return false
+        val response = authenticationApi.authenticate(userInfo.accessToken)
         return response.isSuccessful
     }
 
-    override suspend fun logout(token: String) {
-        val response = authenticationApi.logout("Bearer $token")
-        if (response.isSuccessful) {
-            userInfoManager.clearUserInfo()
+    override suspend fun logout() {
+        val userInfo = userInfoManager.userInfoFlow.first()
+        if (userInfo != null) {
+            val response = authenticationApi.logout("Bearer ${userInfo.accessToken}")
+            if (response.isSuccessful) {
+                userInfoManager.clearUserInfo()
+            }
         }
     }
 }
