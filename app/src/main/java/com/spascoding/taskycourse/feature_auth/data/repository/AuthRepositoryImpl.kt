@@ -1,5 +1,6 @@
 package com.spascoding.taskycourse.feature_auth.data.repository
 
+import com.spascoding.taskycourse.core.Result
 import com.spascoding.taskycourse.feature_auth.data.local.model.UserInfo
 import com.spascoding.taskycourse.feature_auth.data.local.model.UserInfoManager
 import com.spascoding.taskycourse.feature_auth.data.remote.AuthenticationApi
@@ -7,7 +8,6 @@ import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginRequest
 import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginResponse
 import com.spascoding.taskycourse.feature_auth.data.remote.model.RegisterRequest
 import com.spascoding.taskycourse.feature_auth.domain.repository.AuthRepository
-import retrofit2.Response
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -19,15 +19,16 @@ class AuthRepositoryImpl @Inject constructor(
         name: String,
         email: String,
         password: String,
-    ): Response<Void> {
+    ): Result<Void, Error> {
         val request = RegisterRequest(name, email, password)
-        return authenticationApi.register(request)
+        val response = authenticationApi.register(request)
+        return Result.Success(response.body()!!)
     }
 
     override suspend fun login(
         email: String,
         password: String,
-    ): Response<LoginResponse> {
+    ): Result<LoginResponse, Error> {
         val request = LoginRequest(email, password)
         val response = authenticationApi.login(request)
         if (response.isSuccessful) {
@@ -43,7 +44,7 @@ class AuthRepositoryImpl @Inject constructor(
             )
             userInfoManager.saveUserInfo(userInfo)
         }
-        return response
+        return Result.Success(response.body()!!)
     }
 
     override suspend fun authenticate(
