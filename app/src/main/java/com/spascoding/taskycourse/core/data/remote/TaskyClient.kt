@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_auth.data.remote
+package com.spascoding.taskycourse.core.data.remote
 
 import com.spascoding.taskycourse.BuildConfig
 import okhttp3.OkHttpClient

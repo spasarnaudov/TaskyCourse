@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_auth.data.local.model
+package com.spascoding.taskycourse.core.data.local
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit

@@ -55,7 +55,7 @@ private fun AgendaScreen(
                     onEvent(AgendaEvent.LogoutAction)
                 }) {
                 Text(
-                    text = stringResource(R.string.log_in).uppercase(),
+                    text = stringResource(R.string.log_out).uppercase(),
                     fontWeight = FontWeight.Bold,
                 )
             }

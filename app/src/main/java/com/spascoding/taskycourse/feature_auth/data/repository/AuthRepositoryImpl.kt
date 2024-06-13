@@ -1,8 +1,8 @@
 package com.spascoding.taskycourse.feature_auth.data.repository
 
 import com.spascoding.taskycourse.core.Result
-import com.spascoding.taskycourse.feature_auth.data.local.model.UserInfo
-import com.spascoding.taskycourse.feature_auth.data.local.model.UserInfoManager
+import com.spascoding.taskycourse.core.data.local.UserInfo
+import com.spascoding.taskycourse.core.data.local.UserInfoManager
 import com.spascoding.taskycourse.feature_auth.data.remote.AuthenticationApi
 import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginRequest
 import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginResponse
@@ -54,13 +54,4 @@ class AuthRepositoryImpl @Inject constructor(
         return response.isSuccessful
     }
 
-    override suspend fun logout() {
-        val userInfo = userInfoManager.userInfoFlow.first()
-        if (userInfo != null) {
-            val response = authenticationApi.logout("Bearer ${userInfo.accessToken}")
-            if (response.isSuccessful) {
-                userInfoManager.clearUserInfo()
-            }
-        }
-    }
 }

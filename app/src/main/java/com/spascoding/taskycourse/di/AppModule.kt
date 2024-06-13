@@ -1,9 +1,12 @@
 package com.spascoding.taskycourse.di
 
 import android.content.Context
-import com.spascoding.taskycourse.feature_auth.data.local.model.UserInfoManager
+import com.spascoding.taskycourse.core.data.local.UserInfoManager
 import com.spascoding.taskycourse.feature_auth.data.remote.AuthenticationApi
-import com.spascoding.taskycourse.feature_auth.data.remote.TaskyClient
+import com.spascoding.taskycourse.core.data.remote.TaskyClient
+import com.spascoding.taskycourse.feature_agenda.data.data.remote.AgendaApi
+import com.spascoding.taskycourse.feature_agenda.data.repository.AgendaRepositoryImpl
+import com.spascoding.taskycourse.feature_agenda.domain.repository.AgendaRepository
 import com.spascoding.taskycourse.feature_auth.data.repository.AuthRepositoryImpl
 import com.spascoding.taskycourse.feature_auth.domain.repository.AuthRepository
 import dagger.Module
@@ -25,6 +28,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideAgendaApi(): AgendaApi {
+        return TaskyClient.retrofit.create(AgendaApi::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun provideUserInfoManager(@ApplicationContext context: Context): UserInfoManager {
         return UserInfoManager(context)
     }
@@ -36,6 +45,15 @@ object AppModule {
         userInfoManager: UserInfoManager,
     ): AuthRepository {
         return AuthRepositoryImpl(authenticationApi, userInfoManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAgendaRepository(
+        authenticationApi: AgendaApi,
+        userInfoManager: UserInfoManager,
+    ): AgendaRepository {
+        return AgendaRepositoryImpl(authenticationApi, userInfoManager)
     }
 
 }
