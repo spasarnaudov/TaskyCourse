@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.spascoding.taskycourse.feature_agenda_screen.presentation.agenda.AgendaScreenRoot
-import com.spascoding.taskycourse.feature_register_screen.presentation.login.LoginScreenRoot
-import com.spascoding.taskycourse.feature_register_screen.presentation.register.RegisterScreenRoot
+import com.spascoding.taskycourse.feature_agenda.presentation.agenda.AgendaScreenRoot
+import com.spascoding.taskycourse.feature_auth.presentation.login.LoginScreenRoot
+import com.spascoding.taskycourse.feature_auth.presentation.register.RegisterScreenRoot
 
 @Composable
 fun NavController(
