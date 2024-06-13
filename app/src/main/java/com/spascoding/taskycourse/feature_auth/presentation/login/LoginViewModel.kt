@@ -2,6 +2,7 @@ package com.spascoding.taskycourse.feature_auth.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.spascoding.taskycourse.core.onError
 import com.spascoding.taskycourse.feature_auth.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +37,7 @@ class LoginViewModel @Inject constructor(
                         email = state.value.email,
                         password = state.value.password,
                     )
-                    if (!response.isSuccessful) {
+                    response.onError { error ->
                         //TODO show error in dialog
                     }
                 }
