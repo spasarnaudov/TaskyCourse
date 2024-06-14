@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_auth.data.local.model
+package com.spascoding.taskycourse.core.data.local
 
 data class UserInfo(
     val email: String,

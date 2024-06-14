@@ -8,17 +8,20 @@
     <string name="hide_password">Hide password</string>
     <string name="show_password">Show password</string>
 
-    <!--  feature_register_screen  -->
+    <!--  register_screen  -->
 
     <string name="create_your_account">Create your account</string>
     <string name="get_started">Get started</string>
     <string name="name">Name</string>
 
-    <!--  feature_login_screen  -->
+    <!--  login_screen  -->
 
     <string name="don_t_have_an_account">"DON’T HAVE AN ACCOUNT? "</string>
     <string name="sign_up">SIGN UP</string>
     <string name="log_in">Log in</string>
     <string name="welcome_back">Welcome Back!</string>
+
+    <!--  agenda_screen  -->
+    <string name="log_out">Log out</string>
 
 </resources>
