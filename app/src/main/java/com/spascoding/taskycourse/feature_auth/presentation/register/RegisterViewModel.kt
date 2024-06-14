@@ -2,8 +2,8 @@ package com.spascoding.taskycourse.feature_auth.presentation.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spascoding.taskycourse.core.onError
-import com.spascoding.taskycourse.core.onSuccess
+import com.spascoding.taskycourse.core.data.onError
+import com.spascoding.taskycourse.core.data.onSuccess
 import com.spascoding.taskycourse.feature_auth.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

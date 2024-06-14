@@ -9,7 +9,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AgendaViewModel @Inject constructor(
-    //TODO remove AuthRepository
     private val agendaRepository: AgendaRepository,
 ) : ViewModel() {
 

@@ -1,6 +1,4 @@
-package com.spascoding.taskycourse.core
-
-import com.spascoding.taskycourse.core.domain.util.Error
+package com.spascoding.taskycourse.core.domain
 
 sealed interface DataError: Error {
     enum class Remote: DataError {
