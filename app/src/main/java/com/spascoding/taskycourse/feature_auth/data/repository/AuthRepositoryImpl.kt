@@ -1,9 +1,9 @@
 package com.spascoding.taskycourse.feature_auth.data.repository
 
-import com.spascoding.taskycourse.core.Result
+import com.spascoding.taskycourse.core.data.Result
 import com.spascoding.taskycourse.core.data.local.UserInfo
 import com.spascoding.taskycourse.core.data.local.UserInfoManager
-import com.spascoding.taskycourse.feature_auth.data.remote.AuthenticationApi
+import com.spascoding.taskycourse.feature_auth.data.remote.AuthApi
 import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginRequest
 import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginResponse
 import com.spascoding.taskycourse.feature_auth.data.remote.model.RegisterRequest
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val authenticationApi: AuthenticationApi,
+    private val authenticationApi: AuthApi,
     private val userInfoManager: UserInfoManager,
 ) : AuthRepository {
 
