@@ -52,6 +52,19 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="unknown_error">Unknown error</string>
 
+    <!--  name error  -->
+    <string name="name_too_short">Too short name</string>
+    <string name="name_too_long">Too long name</string>
+
+    <!--  email error  -->
+    <string name="email_invalid">Invalid email</string>
+
+    <!--  password error  -->
+    <string name="password_too_short">Too short password</string>
+    <string name="password_no_lowercase">No lowercase</string>
+    <string name="password_no_uppercase">No uppercase</string>
+    <string name="password_no_digit">No digit</string>
+
     <!--  common  -->
 
     <string name="email_address">Email address</string>
