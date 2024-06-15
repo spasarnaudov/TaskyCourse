@@ -37,7 +37,6 @@ import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
 import com.spascoding.taskycourse.feature_auth.presentation.components.DefaultTextField
 import com.spascoding.taskycourse.feature_auth.presentation.components.PasswordOutlinedTextField
-import com.spascoding.taskycourse.feature_auth.presentation.util.AuthPattern
 import com.spascoding.taskycourse.navigation.Navigation
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -77,10 +76,6 @@ private fun LoginScreen(
     state: LoginViewModelState,
     onEvent: (LoginEvent) -> Unit
 ) {
-    val validEmail: Boolean = AuthPattern.isValidEmail(state.email)
-    val validPassword: Boolean = AuthPattern.isValidPassword(state.password)
-    val canLogin: Boolean = validEmail && validPassword
-
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary),
@@ -113,7 +108,7 @@ private fun LoginScreen(
                     ),
                 value = state.email,
                 placeholder = stringResource(R.string.email_address),
-                valid = validEmail,
+                valid = state.validEmail,
                 onValueChange = {
                     onEvent(LoginEvent.ChangeEmail(it))
                 },
@@ -141,8 +136,14 @@ private fun LoginScreen(
                         top = Padding.LARGE,
                         end = Padding.MEDIUM,
                     ),
-                enabled = canLogin,
-                onClick = { onEvent(LoginEvent.LoginAction) }) {
+                onClick = {
+                    onEvent(
+                        LoginEvent.LoginAction(
+                            state.email,
+                            state.password,
+                        )
+                    )
+                }) {
                 Text(
                     text = stringResource(R.string.log_in).uppercase(),
                     fontWeight = FontWeight.Bold,

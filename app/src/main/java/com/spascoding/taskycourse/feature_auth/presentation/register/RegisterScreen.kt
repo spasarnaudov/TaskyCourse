@@ -36,7 +36,6 @@ import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
 import com.spascoding.taskycourse.feature_auth.presentation.components.DefaultTextField
 import com.spascoding.taskycourse.feature_auth.presentation.components.PasswordOutlinedTextField
-import com.spascoding.taskycourse.feature_auth.presentation.util.AuthPattern
 import com.spascoding.taskycourse.navigation.Navigation
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -80,11 +79,6 @@ private fun RegisterScreen(
     state: RegisterViewModelState,
     onEvent: (RegisterEvent) -> Unit
 ) {
-    val validName: Boolean = AuthPattern.isValidName(state.name)
-    val validEmail: Boolean = AuthPattern.isValidEmail(state.email)
-    val validPassword: Boolean = AuthPattern.isValidPassword(state.password)
-    val canRegister: Boolean = validName && validEmail && validPassword
-
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary),
@@ -117,7 +111,7 @@ private fun RegisterScreen(
                     ),
                 value = state.name,
                 placeholder = stringResource(R.string.name),
-                valid = validName,
+                valid = state.validName,
                 onValueChange = {
                     onEvent(RegisterEvent.ChangeName(it))
                 },
@@ -132,9 +126,9 @@ private fun RegisterScreen(
                     ),
                 value = state.email,
                 placeholder = stringResource(R.string.email_address),
-                valid = validEmail,
+                valid = state.validEmail,
                 onValueChange = {
-                    onEvent(RegisterEvent.ChangeEmailAddress(it))
+                    onEvent(RegisterEvent.ChangeEmail(it))
                 },
             )
             PasswordOutlinedTextField(
@@ -160,9 +154,12 @@ private fun RegisterScreen(
                         top = Padding.LARGE,
                         end = Padding.MEDIUM,
                     ),
-                enabled = canRegister,
                 onClick = {
-                    onEvent(RegisterEvent.RegisterAction)
+                    onEvent(RegisterEvent.RegisterAction(
+                        state.name,
+                        state.email,
+                        state.password,
+                    ))
                 }) {
                 Text(
                     text = stringResource(R.string.get_started).uppercase(),
