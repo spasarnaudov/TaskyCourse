@@ -1,5 +1,6 @@
 package com.spascoding.taskycourse.feature_auth.presentation.register
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,10 +17,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,12 +39,23 @@ import com.spascoding.taskycourse.feature_auth.presentation.components.PasswordO
 import com.spascoding.taskycourse.feature_auth.presentation.util.AuthPattern
 import com.spascoding.taskycourse.navigation.Navigation
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RegisterScreenRoot(
     navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.toastMessages.collectLatest { userEvent ->
+            val errorMessage = when (userEvent) {
+                is RegisterViewModel.UserEvent.Error -> userEvent.error.asString(context)
+            }
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val onNavigationEvent: (RegisterEvent) -> Unit = { event ->
