@@ -10,16 +10,15 @@ import java.io.IOException
 object RequestHelper {
     suspend fun <T> performRequest(
         request: suspend () -> Response<T>,
-        onSuccess: suspend (T) -> Unit = {}
-    ): Result<T, DataError.Remote> {
+        onSuccess: suspend (T?) -> Unit = {}
+    ): Result<T?, DataError.Remote> {
         return try {
             val response = request()
             if (response.isSuccessful) {
                 val body = response.body()
                 return if (body == null) {
-                    @Suppress("UNCHECKED_CAST")
-                    onSuccess(Unit as T)
-                    Result.Success(Unit)
+                    onSuccess(null)
+                    Result.Success(null)
                 } else {
                     onSuccess(body)
                     Result.Success(body)

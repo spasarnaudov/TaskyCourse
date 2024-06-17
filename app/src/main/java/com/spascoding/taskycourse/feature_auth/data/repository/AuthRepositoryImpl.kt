@@ -26,7 +26,7 @@ class AuthRepositoryImpl @Inject constructor(
         name: String,
         email: String,
         password: String,
-    ): Result<Void, DataError.Remote> {
+    ): Result<Unit?, DataError.Remote> {
         val request = RegisterRequest(name, email, password)
         return RequestHelper.performRequest(
             request = { authenticationApi.register(request) }
@@ -36,11 +36,14 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun login(
         email: String,
         password: String,
-    ): Result<LoginResponse, DataError.Remote> {
+    ): Result<LoginResponse?, DataError.Remote> {
         val request = LoginRequest(email, password)
         return RequestHelper.performRequest(
             request = { authenticationApi.login(request) },
             onSuccess = { loginResponse ->
+                if (loginResponse == null) {
+                    return@performRequest
+                }
                 val userInfo = UserInfo(
                     email = email,
                     password = password,

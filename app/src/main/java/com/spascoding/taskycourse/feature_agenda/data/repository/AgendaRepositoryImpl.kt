@@ -14,7 +14,7 @@ class AgendaRepositoryImpl @Inject constructor(
     private val userInfoManager: UserInfoManager,
 ) : AgendaRepository {
 
-    override suspend fun logout(): Result<Unit, DataError.Remote> {
+    override suspend fun logout(): Result<Unit?, DataError.Remote> {
         val userInfo = userInfoManager.userInfoFlow.first()
             ?: return Result.Error(DataError.Remote.UNKNOWN)
         return RequestHelper.performRequest(
