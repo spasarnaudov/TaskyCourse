@@ -2,7 +2,9 @@ package com.spascoding.taskycourse.feature_agenda.presentation.agenda
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.data.onError
+import com.spascoding.taskycourse.core.data.onSuccess
 import com.spascoding.taskycourse.core.presentation.UiText
 import com.spascoding.taskycourse.core.presentation.asUiText
 import com.spascoding.taskycourse.feature_agenda.domain.repository.AgendaRepository
@@ -27,6 +29,9 @@ class AgendaViewModel @Inject constructor(
             is AgendaEvent.LogoutAction -> {
                 viewModelScope.launch {
                     agendaRepository.logout()
+                        .onSuccess {
+                            _toastChannel.send(UserEvent.Error(UiText.StringResource(R.string.logged_out)))
+                        }
                         .onError { error ->
                             val errorMassage = error.asUiText()
                             _toastChannel.send(UserEvent.Error(errorMassage))

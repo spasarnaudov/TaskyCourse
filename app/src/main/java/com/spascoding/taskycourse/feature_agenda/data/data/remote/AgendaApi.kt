@@ -6,7 +6,5 @@ import retrofit2.http.Header
 
 interface AgendaApi {
     @GET("/logout")
-    suspend fun logout(
-        @Header("Authorization") token: String
-    ): Response<Unit>
+    suspend fun logout(): Response<Unit>
 }

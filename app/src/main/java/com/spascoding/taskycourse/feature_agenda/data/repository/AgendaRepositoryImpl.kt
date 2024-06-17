@@ -15,10 +15,8 @@ class AgendaRepositoryImpl @Inject constructor(
 ) : AgendaRepository {
 
     override suspend fun logout(): Result<Unit?, DataError.Remote> {
-        val userInfo = userInfoManager.userInfoFlow.first()
-            ?: return Result.Error(DataError.Remote.UNKNOWN)
         return RequestHelper.performRequest(
-            request = { agendaApi.logout("Bearer ${userInfo.accessToken}") },
+            request = { agendaApi.logout() },
             onSuccess = { userInfoManager.clearUserInfo() }
         )
     }

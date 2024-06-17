@@ -2,6 +2,7 @@ package com.spascoding.taskycourse.feature_auth.presentation.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.data.onError
 import com.spascoding.taskycourse.core.data.onSuccess
 import com.spascoding.taskycourse.core.presentation.UiText
@@ -127,6 +128,7 @@ class RegisterViewModel @Inject constructor(
                     email = event.email,
                     password = event.password,
                 )
+                _toastChannel.send(UserEvent.Error(UiText.StringResource(R.string.logged_in)))
             }.onError { error ->
                 val errorMassage = error.asUiText()
                 _toastChannel.send(UserEvent.Error(errorMassage))
