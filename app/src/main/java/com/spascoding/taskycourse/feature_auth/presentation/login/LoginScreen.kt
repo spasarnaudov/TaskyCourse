@@ -34,7 +34,7 @@ import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.FontSize
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
-import com.spascoding.taskycourse.core.presentation.observeAsEvents
+import com.spascoding.taskycourse.core.presentation.ObserveAsEvents
 import com.spascoding.taskycourse.feature_auth.presentation.components.DefaultTextField
 import com.spascoding.taskycourse.feature_auth.presentation.components.PasswordOutlinedTextField
 import com.spascoding.taskycourse.navigation.Navigation
@@ -46,7 +46,7 @@ fun LoginScreenRoot(
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    observeAsEvents(flow = viewModel.toastMessages, onEvent = { event ->
+    ObserveAsEvents(flow = viewModel.toastMessages, onEvent = { event ->
         val errorMessage = when (event) {
             is LoginViewModel.UserEvent.Error -> event.error.asString(context)
         }

@@ -25,7 +25,7 @@ object RequestHelper {
                     Result.Success(body)
                 }
             } else {
-                //How I can return error massage from server and it needs to do this?
+//                Leave this if I needed in future to use messages from server
 //                val errorResponse = response.errorBody()?.string()
 //                val errorMessage = handleErrorMassage(errorResponse)
 //                Result.Error(TextError(errorMessage))

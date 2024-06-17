@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
-import com.spascoding.taskycourse.core.presentation.observeAsEvents
+import com.spascoding.taskycourse.core.presentation.ObserveAsEvents
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
 
 @Composable
@@ -33,7 +33,7 @@ fun AgendaScreenRoot(
     viewModel: AgendaViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    observeAsEvents(flow = viewModel.toastMessages, onEvent = { event ->
+    ObserveAsEvents(flow = viewModel.toastMessages, onEvent = { event ->
         val errorMessage = when (event) {
             is AgendaViewModel.UserEvent.Error -> event.error.asString(context)
         }
