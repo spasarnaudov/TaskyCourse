@@ -7,7 +7,7 @@ import com.spascoding.taskycourse.core.data.onSuccess
 import com.spascoding.taskycourse.core.presentation.UiText
 import com.spascoding.taskycourse.core.presentation.asUiText
 import com.spascoding.taskycourse.feature_auth.domain.repository.AuthRepository
-import com.spascoding.taskycourse.feature_auth.presentation.util.UserDataValidator
+import com.spascoding.taskycourse.feature_auth.domain.util.UserDataValidator
 import com.spascoding.taskycourse.feature_auth.presentation.util.asUiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +45,7 @@ class RegisterViewModel @Inject constructor(
             .onSuccess {
                 state.update {
                     it.copy(
-                        email = event.name,
+                        name = event.name,
                         validEmail = true,
                     )
                 }
@@ -53,7 +53,7 @@ class RegisterViewModel @Inject constructor(
             .onError {
                 state.update {
                     it.copy(
-                        email = event.name,
+                        name = event.name,
                         validEmail = false,
                     )
                 }
@@ -111,7 +111,6 @@ class RegisterViewModel @Inject constructor(
                     _toastChannel.send(UserEvent.Error(errorMassage))
                     return@launch
                 }
-
             UserDataValidator.validatePassword(event.password)
                 .onError { error ->
                     val errorMassage = error.asUiText()

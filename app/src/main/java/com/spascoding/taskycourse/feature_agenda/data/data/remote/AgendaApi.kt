@@ -8,5 +8,5 @@ interface AgendaApi {
     @GET("/logout")
     suspend fun logout(
         @Header("Authorization") token: String
-    ): Response<Void>
+    ): Response<Unit>
 }

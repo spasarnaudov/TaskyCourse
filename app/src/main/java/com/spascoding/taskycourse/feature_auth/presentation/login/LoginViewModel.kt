@@ -7,7 +7,7 @@ import com.spascoding.taskycourse.core.data.onSuccess
 import com.spascoding.taskycourse.core.presentation.UiText
 import com.spascoding.taskycourse.core.presentation.asUiText
 import com.spascoding.taskycourse.feature_auth.domain.repository.AuthRepository
-import com.spascoding.taskycourse.feature_auth.presentation.util.UserDataValidator
+import com.spascoding.taskycourse.feature_auth.domain.util.UserDataValidator
 import com.spascoding.taskycourse.feature_auth.presentation.util.asUiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

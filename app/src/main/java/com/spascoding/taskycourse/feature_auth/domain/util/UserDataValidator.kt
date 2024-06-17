@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_auth.presentation.util
+package com.spascoding.taskycourse.feature_auth.domain.util
 
 import android.util.Patterns
 import com.spascoding.taskycourse.core.data.Result

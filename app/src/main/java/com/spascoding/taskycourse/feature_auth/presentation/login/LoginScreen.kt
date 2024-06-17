@@ -14,7 +14,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,11 +34,11 @@ import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.FontSize
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
+import com.spascoding.taskycourse.core.presentation.observeAsEvents
 import com.spascoding.taskycourse.feature_auth.presentation.components.DefaultTextField
 import com.spascoding.taskycourse.feature_auth.presentation.components.PasswordOutlinedTextField
 import com.spascoding.taskycourse.navigation.Navigation
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginScreenRoot(
@@ -47,14 +46,12 @@ fun LoginScreenRoot(
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    LaunchedEffect(Unit) {
-        viewModel.toastMessages.collectLatest { userEvent ->
-            val errorMessage = when (userEvent) {
-                is LoginViewModel.UserEvent.Error -> userEvent.error.asString(context)
-            }
-            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+    observeAsEvents(flow = viewModel.toastMessages, onEvent = { event ->
+        val errorMessage = when (event) {
+            is LoginViewModel.UserEvent.Error -> event.error.asString(context)
         }
-    }
+        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+    })
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 

@@ -20,6 +20,7 @@ fun DataError.Remote.asUiText(): UiText {
         DataError.Remote.GATEWAY_TIMEOUT -> R.string.error_504
 
         DataError.Remote.NO_INTERNET -> R.string.no_internet_connection
+        DataError.Remote.SOMETHING_WENT_WRONG -> R.string.something_went_wrong
         DataError.Remote.UNKNOWN -> R.string.unknown_error
     }
     return UiText.StringResource(error)
