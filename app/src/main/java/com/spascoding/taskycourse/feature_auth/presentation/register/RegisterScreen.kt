@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,11 +33,10 @@ import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.FontSize
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
+import com.spascoding.taskycourse.core.presentation.ObserveAsEvents
 import com.spascoding.taskycourse.feature_auth.presentation.components.DefaultTextField
 import com.spascoding.taskycourse.feature_auth.presentation.components.PasswordOutlinedTextField
-import com.spascoding.taskycourse.navigation.Navigation
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RegisterScreenRoot(
@@ -46,14 +44,12 @@ fun RegisterScreenRoot(
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    LaunchedEffect(Unit) {
-        viewModel.toastMessages.collectLatest { userEvent ->
-            val errorMessage = when (userEvent) {
-                is RegisterViewModel.UserEvent.Error -> userEvent.error.asString(context)
-            }
-            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+    ObserveAsEvents(flow = viewModel.toastMessages, onEvent = { event ->
+        val errorMessage = when (event) {
+            is RegisterViewModel.UserEvent.Error -> event.error.asString(context)
         }
-    }
+        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+    })
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -61,9 +57,6 @@ fun RegisterScreenRoot(
         when (event) {
             is RegisterEvent.BackAction -> {
                 navController.navigateUp()
-            }
-            is RegisterEvent.RegisterAction -> {
-                navController.navigate(Navigation.AgendaNavigation.route)
             }
             else -> viewModel.onEvent(event)
         }

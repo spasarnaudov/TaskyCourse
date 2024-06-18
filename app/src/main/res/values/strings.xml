@@ -50,6 +50,7 @@
     <!--  unknown client error  -->
 
     <string name="no_internet_connection">No internet connection</string>
+    <string name="something_went_wrong">Oops, something went wrong</string>
     <string name="unknown_error">Unknown error</string>
 
     <!--  name error  -->
@@ -83,9 +84,11 @@
     <string name="don_t_have_an_account">"DON’T HAVE AN ACCOUNT? "</string>
     <string name="sign_up">SIGN UP</string>
     <string name="log_in">Log in</string>
+    <string name="logged_in">Logged in</string>
     <string name="welcome_back">Welcome Back!</string>
 
     <!--  agenda_screen  -->
     <string name="log_out">Log out</string>
+    <string name="logged_out">Logged out</string>
 
 </resources>

@@ -2,6 +2,7 @@ package com.spascoding.taskycourse.feature_auth.presentation.util
 
 import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.presentation.UiText
+import com.spascoding.taskycourse.feature_auth.domain.util.UserDataValidator
 
 fun UserDataValidator.NameError.asUiText(): UiText {
     val error = when (this) {

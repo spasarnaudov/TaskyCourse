@@ -17,6 +17,7 @@ sealed interface DataError: Error {
         GATEWAY_TIMEOUT,
 
         NO_INTERNET,
+        SOMETHING_WENT_WRONG,
         UNKNOWN,
     }
 

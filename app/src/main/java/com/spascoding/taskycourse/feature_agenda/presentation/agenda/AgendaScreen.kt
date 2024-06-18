@@ -1,5 +1,6 @@
 package com.spascoding.taskycourse.feature_agenda.presentation.agenda
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,12 +25,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
+import com.spascoding.taskycourse.core.presentation.ObserveAsEvents
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
 
 @Composable
 fun AgendaScreenRoot(
     viewModel: AgendaViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
+    ObserveAsEvents(flow = viewModel.toastMessages, onEvent = { event ->
+        val errorMessage = when (event) {
+            is AgendaViewModel.UserEvent.Error -> event.error.asString(context)
+        }
+        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+    })
+
     AgendaScreen(onEvent = viewModel::onEvent)
 }
 
