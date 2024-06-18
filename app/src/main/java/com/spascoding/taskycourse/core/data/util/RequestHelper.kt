@@ -2,7 +2,6 @@ package com.spascoding.taskycourse.core.data.util
 
 import com.spascoding.taskycourse.core.data.Result
 import com.spascoding.taskycourse.core.domain.DataError
-import org.json.JSONObject
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -15,38 +14,16 @@ object RequestHelper {
         return try {
             val response = request()
             if (response.isSuccessful) {
-                val body = response.body()
-                return if (body == null) {
-                    onSuccess(null)
-                    Result.Success(null)
-                } else {
-                    onSuccess(body)
-                    Result.Success(body)
-                }
+                val body = response.body() ?: throw IllegalStateException("Expected a response body")
+                onSuccess(body)
+                Result.Success(body)
             } else {
-//                Leave this if I needed in future to use messages from server
-//                val errorResponse = response.errorBody()?.string()
-//                val errorMessage = handleErrorMassage(errorResponse)
-//                Result.Error(TextError(errorMessage))
                 handleErrorCode(response.code())
             }
         } catch (e: HttpException) {
             handleErrorCode(e.code())
         } catch (e: IOException) {
             Result.Error(DataError.Remote.NO_INTERNET)
-        }
-    }
-
-    private fun handleErrorMassage(errorResponse: String?): String {
-        return if (errorResponse != null) {
-            try {
-                val jsonObject = JSONObject(errorResponse)
-                jsonObject.getString("message")
-            } catch (e: Exception) {
-                "Unknown error"
-            }
-        } else {
-            "Unknown error"
         }
     }
 
