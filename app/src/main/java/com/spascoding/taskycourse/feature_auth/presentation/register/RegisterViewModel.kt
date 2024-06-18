@@ -47,7 +47,7 @@ class RegisterViewModel @Inject constructor(
                 state.update {
                     it.copy(
                         name = event.name,
-                        validEmail = true,
+                        validName = true,
                     )
                 }
             }
@@ -55,7 +55,7 @@ class RegisterViewModel @Inject constructor(
                 state.update {
                     it.copy(
                         name = event.name,
-                        validEmail = false,
+                        validName = false,
                     )
                 }
             }
@@ -100,24 +100,27 @@ class RegisterViewModel @Inject constructor(
     }
     private fun handleRegisterAction(event: RegisterEvent.RegisterAction) {
         viewModelScope.launch(Dispatchers.IO) {
+            val errors = mutableListOf<UiText>()
             UserDataValidator.validateName(event.name)
                 .onError { error ->
                     val errorMassage = error.asUiText()
-                    _toastChannel.send(UserEvent.Error(errorMassage))
-                    return@launch
+                    errors.add(errorMassage)
                 }
             UserDataValidator.validateEmail(event.email)
                 .onError { error ->
                     val errorMassage = error.asUiText()
-                    _toastChannel.send(UserEvent.Error(errorMassage))
-                    return@launch
+                    errors.add(errorMassage)
                 }
             UserDataValidator.validatePassword(event.password)
                 .onError { error ->
                     val errorMassage = error.asUiText()
-                    _toastChannel.send(UserEvent.Error(errorMassage))
-                    return@launch
+                    errors.add(errorMassage)
                 }
+
+            if (errors.isNotEmpty()) {
+                _toastChannel.send(UserEvent.Errors(errors))
+                return@launch
+            }
 
             authRepository.register(
                 name = event.name,
@@ -138,5 +141,6 @@ class RegisterViewModel @Inject constructor(
 
     sealed interface UserEvent {
         data class Error(val error: UiText): UserEvent
+        data class Errors(val errors: List<UiText>) : UserEvent
     }
 }
