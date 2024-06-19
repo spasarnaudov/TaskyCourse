@@ -80,19 +80,23 @@ class LoginViewModel @Inject constructor(
     }
     private fun handleLoginAction(event: LoginEvent.LoginAction) {
         viewModelScope.launch(Dispatchers.IO) {
+            val errors = mutableListOf<UiText>()
             UserDataValidator.validateEmail(event.email)
                 .onError { error ->
                     val errorMassage = error.asUiText()
-                    _toastChannel.send(UserEvent.Error(errorMassage))
-                    return@launch
+                    errors.add(errorMassage)
                 }
 
             UserDataValidator.validatePassword(event.password)
                 .onError { error ->
                     val errorMassage = error.asUiText()
-                    _toastChannel.send(UserEvent.Error(errorMassage))
-                    return@launch
+                    errors.add(errorMassage)
                 }
+
+            if (errors.isNotEmpty()) {
+                _toastChannel.send(UserEvent.Errors(errors))
+                return@launch
+            }
 
             authRepository.login(
                 email = event.email,
@@ -110,5 +114,6 @@ class LoginViewModel @Inject constructor(
 
     sealed interface UserEvent {
         data class Error(val error: UiText) : UserEvent
+        data class Errors(val errors: List<UiText>) : UserEvent
     }
 }

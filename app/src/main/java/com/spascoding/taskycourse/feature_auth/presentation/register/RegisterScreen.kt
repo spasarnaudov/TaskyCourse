@@ -47,6 +47,12 @@ fun RegisterScreenRoot(
     ObserveAsEvents(flow = viewModel.toastMessages, onEvent = { event ->
         val errorMessage = when (event) {
             is RegisterViewModel.UserEvent.Error -> event.error.asString(context)
+            is RegisterViewModel.UserEvent.Errors -> {
+                val result = event.errors.map { error ->
+                    error.asString(context)
+                }
+                result.joinToString("\n")
+            }
         }
         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
     })
