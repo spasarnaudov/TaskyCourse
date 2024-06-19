@@ -1,5 +1,6 @@
 package com.spascoding.taskycourse.feature_auth.domain.util
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import com.spascoding.taskycourse.core.data.Result
@@ -7,62 +8,65 @@ import com.spascoding.taskycourse.core.data.Result
 class UserDataValidatorTest {
     @Test
     fun `validateName returns TOO_SHORT error for names shorter than 4 characters`() {
-        val result = UserDataValidator.validateName("abc")
-        assertEquals(Result.Error(UserDataValidator.NameError.TOO_SHORT), result)
+        val shortName = "abc"
+        val actual = UserDataValidator.validateName(shortName)
+        val expected = Result.Error(UserDataValidator.NameError.TOO_SHORT)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `validateName returns TOO_LONG error for names longer than 50 characters`() {
         val longName = "a".repeat(51)
-        val result = UserDataValidator.validateName(longName)
-        assertEquals(Result.Error(UserDataValidator.NameError.TOO_LONG), result)
+        val actual = UserDataValidator.validateName(longName)
+        val expected = Result.Error(UserDataValidator.NameError.TOO_LONG)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `validateName returns Success for valid names`() {
-        val result = UserDataValidator.validateName("ValidName")
-        assertEquals(Result.Success(Unit), result)
+        val validName = "ValidName"
+        val actual = UserDataValidator.validateName(validName)
+        val expected = Result.Success(Unit)
+        assertThat(actual).isEqualTo(expected)
     }
-
-//    @Test
-//    fun `validateEmail returns INVALID_EMAIL error for invalid email format`() {
-//        val result = UserDataValidator.validateEmail("invalid-email")
-//        assertEquals(Result.Error(UserDataValidator.EmailError.INVALID_EMAIL), result)
-//    }
-//
-//    @Test
-//    fun `validateEmail returns Success for valid email`() {
-//        val result = UserDataValidator.validateEmail("valid@example.com")
-//        assertEquals(Result.Success(Unit), result)
-//    }
 
     @Test
     fun `validatePassword returns TOO_SHORT error for passwords shorter than 9 characters`() {
-        val result = UserDataValidator.validatePassword("short1A")
-        assertEquals(Result.Error(UserDataValidator.PasswordError.TOO_SHORT), result)
+        val shortPassword = "short1A"
+        val actual = UserDataValidator.validatePassword(shortPassword)
+        val expected = Result.Error(UserDataValidator.PasswordError.TOO_SHORT)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `validatePassword returns NO_LOWERCASE error for passwords with no lowercase letters`() {
-        val result = UserDataValidator.validatePassword("PASSWORD123")
-        assertEquals(Result.Error(UserDataValidator.PasswordError.NO_LOWERCASE), result)
+        val noLowercasePassword = "PASSWORD123"
+        val actual = UserDataValidator.validatePassword(noLowercasePassword)
+        val expected = Result.Error(UserDataValidator.PasswordError.NO_LOWERCASE)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `validatePassword returns NO_UPPERCASE error for passwords with no uppercase letters`() {
-        val result = UserDataValidator.validatePassword("password123")
-        assertEquals(Result.Error(UserDataValidator.PasswordError.NO_UPPERCASE), result)
+        val noUppercasePassword = "password123"
+        val actual = UserDataValidator.validatePassword(noUppercasePassword)
+        val expected = Result.Error(UserDataValidator.PasswordError.NO_UPPERCASE)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `validatePassword returns NO_DIGIT error for passwords with no digits`() {
-        val result = UserDataValidator.validatePassword("PasswordWithoutDigit")
-        assertEquals(Result.Error(UserDataValidator.PasswordError.NO_DIGIT), result)
+        val noDigitPassword = "PasswordWithoutDigit"
+        val actual = UserDataValidator.validatePassword(noDigitPassword)
+        val expected = Result.Error(UserDataValidator.PasswordError.NO_DIGIT)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `validatePassword returns Success for valid passwords`() {
-        val result = UserDataValidator.validatePassword("Valid1Password")
-        assertEquals(Result.Success(Unit), result)
+        val validPassword = "Valid1Password"
+        val actual = UserDataValidator.validatePassword(validPassword)
+        val expected = Result.Success(Unit)
+        assertThat(actual).isEqualTo(expected)
     }
 }

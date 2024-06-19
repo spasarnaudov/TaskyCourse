@@ -94,4 +94,7 @@ dependencies {
 
     //Splash
     implementation(libs.core.splashscreen)
+
+    //Test
+    testImplementation (libs.truth)
 }
