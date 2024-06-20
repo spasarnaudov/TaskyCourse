@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_auth.data.remote.model
+package com.spascoding.taskycourse.core.data.remote.model
 
 data class RefreshTokenResponse(
     val accessToken: String,

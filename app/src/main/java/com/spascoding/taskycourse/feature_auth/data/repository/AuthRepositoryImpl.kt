@@ -58,10 +58,10 @@ class AuthRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun authenticate(): Boolean {
-        val userInfo = userInfoManager.userInfoFlow.first() ?: return false
-        val response = authenticationApi.authenticate(userInfo.accessToken)
-        return response.isSuccessful
-    }
+//    override suspend fun authenticate(): Boolean {
+//        val userInfo = userInfoManager.userInfoFlow.first() ?: return false
+//        val response = authenticationApi.authenticate(userInfo.accessToken)
+//        return response.isSuccessful
+//    }
 
 }
