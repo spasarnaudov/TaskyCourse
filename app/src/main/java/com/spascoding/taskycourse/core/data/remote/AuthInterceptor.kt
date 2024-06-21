@@ -95,19 +95,6 @@ class AuthInterceptor @Inject constructor(
     private interface TaskyApiService {
         @POST("/accessToken")
         suspend fun refreshAccessToken(@Body request: RefreshTokenRequest): retrofit2.Response<RefreshTokenResponse>
-
-        /*
-        I don't know how to use this
-        Check authentication
-        Endpoint: /authenticate
-        Method: GET
-        Description: Used to check if a token is (still) valid
-        Response: 200 if valid, 401 if invalid
-         */
-//        @GET("/authenticate")
-//        suspend fun authenticate(
-//            @Header("Authorization") token: String
-//        ): retrofit2.Response<Void>
     }
 
 }

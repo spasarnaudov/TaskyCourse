@@ -22,12 +22,4 @@ interface AuthApi {
     suspend fun login(
         @Body body: LoginRequest
     ): Response<LoginResponse>
-
-//    @POST("/accessToken")
-//    fun refreshAccessToken(@Body request: RefreshTokenRequest): Call<RefreshTokenResponse>
-//
-//    @GET("/authenticate")
-//    suspend fun authenticate(
-//        @Header("Authorization") token: String
-//    ): Response<Void>
 }
