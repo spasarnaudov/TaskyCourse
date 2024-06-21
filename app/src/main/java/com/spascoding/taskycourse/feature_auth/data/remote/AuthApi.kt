@@ -2,8 +2,8 @@ package com.spascoding.taskycourse.feature_auth.data.remote
 
 import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginRequest
 import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginResponse
-import com.spascoding.taskycourse.feature_auth.data.remote.model.RefreshTokenRequest
-import com.spascoding.taskycourse.feature_auth.data.remote.model.RefreshTokenResponse
+import com.spascoding.taskycourse.core.data.remote.model.RefreshTokenRequest
+import com.spascoding.taskycourse.core.data.remote.model.RefreshTokenResponse
 import com.spascoding.taskycourse.feature_auth.data.remote.model.RegisterRequest
 import retrofit2.Call
 import retrofit2.Response
@@ -22,12 +22,4 @@ interface AuthApi {
     suspend fun login(
         @Body body: LoginRequest
     ): Response<LoginResponse>
-
-    @POST("/accessToken")
-    fun refreshAccessToken(@Body request: RefreshTokenRequest): Call<RefreshTokenResponse>
-
-    @GET("/authenticate")
-    suspend fun authenticate(
-        @Header("Authorization") token: String
-    ): Response<Void>
 }

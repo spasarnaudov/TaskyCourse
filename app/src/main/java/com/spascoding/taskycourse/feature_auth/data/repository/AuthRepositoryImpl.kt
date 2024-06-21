@@ -10,11 +10,6 @@ import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginRequest
 import com.spascoding.taskycourse.feature_auth.data.remote.model.LoginResponse
 import com.spascoding.taskycourse.feature_auth.domain.repository.AuthRepository
 import com.spascoding.taskycourse.feature_auth.data.remote.model.RegisterRequest
-import kotlinx.coroutines.flow.first
-import org.json.JSONObject
-import retrofit2.HttpException
-import retrofit2.Response
-import java.io.IOException
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -56,12 +51,6 @@ class AuthRepositoryImpl @Inject constructor(
                 userInfoManager.saveUserInfo(userInfo)
             }
         )
-    }
-
-    override suspend fun authenticate(): Boolean {
-        val userInfo = userInfoManager.userInfoFlow.first() ?: return false
-        val response = authenticationApi.authenticate(userInfo.accessToken)
-        return response.isSuccessful
     }
 
 }
