@@ -1,6 +1,6 @@
 package com.spascoding.taskycourse.feature_auth.domain.util
 
-import android.util.Patterns
+import androidx.core.util.PatternsCompat
 import com.spascoding.taskycourse.core.data.Result
 import com.spascoding.taskycourse.core.domain.Error
 
@@ -20,7 +20,7 @@ object UserDataValidator {
     }
 
     fun validateEmail(text: String): Result<Unit, EmailError> {
-        if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+        if (!PatternsCompat.EMAIL_ADDRESS.matcher(text).matches()) {
             return Result.Error(EmailError.INVALID_EMAIL)
         }
         return Result.Success(Unit)
