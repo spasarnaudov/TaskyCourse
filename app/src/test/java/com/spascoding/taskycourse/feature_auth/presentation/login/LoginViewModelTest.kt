@@ -1,72 +1,59 @@
-package com.spascoding.taskycourse.feature_auth.presentation.register
+package com.spascoding.taskycourse.feature_auth.presentation.login
 
-import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth
 import com.spascoding.taskycourse.MainCoroutineRule
+import com.spascoding.taskycourse.feature_auth.data.repository.FakeAuthRepository
+import com.spascoding.taskycourse.feature_auth.presentation.register.RegisterViewModelState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import com.spascoding.taskycourse.feature_auth.data.repository.FakeAuthRepository
 import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class RegisterViewModelTest {
-
+class LoginViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
     private lateinit var authRepository: FakeAuthRepository
 
-    private lateinit var viewModel: RegisterViewModel
+    private lateinit var viewModel: LoginViewModel
 
     @Before
     fun setup() {
         authRepository = FakeAuthRepository()
-        viewModel = RegisterViewModel(authRepository)
-    }
-
-    @Test
-    fun testChangeName() = runTest {
-        val name = "Test User"
-        val event = RegisterEvent.ChangeName(name)
-        viewModel.onEvent(event)
-
-        val actual = viewModel.state.value
-        val expected = RegisterViewModelState(name = name, validName = true)
-        assertThat(actual).isEqualTo(expected)
+        viewModel = LoginViewModel(authRepository)
     }
 
     @Test
     fun testChangeEmail() = runTest {
         val email = "test@example.com"
-        val event = RegisterEvent.ChangeEmail(email)
+        val event = LoginEvent.ChangeEmail(email)
         viewModel.onEvent(event)
 
         val actual = viewModel.state.value
         val expected = RegisterViewModelState(email = email, validEmail = true)
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun testChangePassword() = runTest {
         val password = "Password123"
-        val event = RegisterEvent.ChangePassword(password)
+        val event = LoginEvent.ChangePassword(password)
         viewModel.onEvent(event)
 
         val actual = viewModel.state.value
         val expected = RegisterViewModelState(password = password, validPassword = true)
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun testRegisterActionSuccess() = runTest {
-        val name = "Test User"
         val email = "test@example.com"
         val password = "Password123"
-        val event = RegisterEvent.RegisterAction(name, email, password)
+        val event = LoginEvent.LoginAction(email, password)
 
         // Stubbing the repository methods directly
         authRepository.stubRegisterSuccess()
@@ -75,15 +62,14 @@ class RegisterViewModelTest {
         advanceUntilIdle()
 
         val actual = viewModel.toastMessages.first()
-        assertThat(actual is RegisterViewModel.UserEvent.Success).isTrue()
+        Truth.assertThat(actual is LoginViewModel.UserEvent.Success).isTrue()
     }
 
     @Test
     fun testRegisterActionFailure() = runTest {
-        val name = "Test User"
         val email = "test@example.com"
         val password = "password123"
-        val event = RegisterEvent.RegisterAction(name, email, password)
+        val event = LoginEvent.LoginAction(email, password)
 
         // Stubbing the repository methods directly
         authRepository.stubRegisterFailure()
@@ -92,6 +78,6 @@ class RegisterViewModelTest {
         advanceUntilIdle()
 
         val actual = viewModel.toastMessages.first()
-        assertThat(actual is RegisterViewModel.UserEvent.Error).isTrue()
+        Truth.assertThat(actual is LoginViewModel.UserEvent.Error).isTrue()
     }
 }

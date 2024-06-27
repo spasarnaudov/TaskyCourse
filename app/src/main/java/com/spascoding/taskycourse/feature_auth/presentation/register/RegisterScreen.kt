@@ -58,7 +58,6 @@ fun RegisterScreenRoot(
                 }
                 result.joinToString("\n")
             }
-
         }
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     })

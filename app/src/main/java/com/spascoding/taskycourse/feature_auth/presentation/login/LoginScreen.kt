@@ -48,9 +48,14 @@ fun LoginScreenRoot(
     val context = LocalContext.current
     ObserveAsEvents(flow = viewModel.toastMessages, onEvent = { event ->
         val errorMessage = when (event) {
-            is LoginViewModel.UserEvent.Error -> event.error.asString(context)
-            is LoginViewModel.UserEvent.Errors -> {
-                val result = event.errors.map { error ->
+            is LoginViewModel.UserEvent.Success -> {
+                val result = event.messages.map { error ->
+                    error.asString(context)
+                }
+                result.joinToString("\n")
+            }
+            is LoginViewModel.UserEvent.Error -> {
+                val result = event.messages.map { error ->
                     error.asString(context)
                 }
                 result.joinToString("\n")
