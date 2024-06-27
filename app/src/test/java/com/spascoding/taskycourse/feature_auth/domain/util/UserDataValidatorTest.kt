@@ -1,7 +1,6 @@
 package com.spascoding.taskycourse.feature_auth.domain.util
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Assert.assertEquals
 import org.junit.Test
 import com.spascoding.taskycourse.core.data.Result
 

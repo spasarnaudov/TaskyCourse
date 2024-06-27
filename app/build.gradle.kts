@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -100,4 +101,5 @@ dependencies {
     testImplementation (libs.mockk)
     testImplementation (libs.turbine)
     testImplementation (libs.kotlinx.coroutines.test)
+    androidTestImplementation (libs.androidx.core.testing)
 }

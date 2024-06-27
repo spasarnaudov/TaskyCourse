@@ -60,7 +60,7 @@ class LoginViewModel @Inject constructor(
             }
     }
     private fun handleChangePasswordAction(event: LoginEvent.ChangePassword) {
-        UserDataValidator.validateEmail(event.password)
+        UserDataValidator.validatePassword(event.password)
             .onSuccess {
                 state.update {
                     it.copy(
@@ -80,21 +80,21 @@ class LoginViewModel @Inject constructor(
     }
     private fun handleLoginAction(event: LoginEvent.LoginAction) {
         viewModelScope.launch(Dispatchers.IO) {
-            val errors = mutableListOf<UiText>()
+            val messages = mutableListOf<UiText>()
             UserDataValidator.validateEmail(event.email)
                 .onError { error ->
                     val errorMassage = error.asUiText()
-                    errors.add(errorMassage)
+                    messages.add(errorMassage)
                 }
 
             UserDataValidator.validatePassword(event.password)
                 .onError { error ->
                     val errorMassage = error.asUiText()
-                    errors.add(errorMassage)
+                    messages.add(errorMassage)
                 }
 
-            if (errors.isNotEmpty()) {
-                _toastChannel.send(UserEvent.Errors(errors))
+            if (messages.isNotEmpty()) {
+                _toastChannel.send(UserEvent.Error(messages))
                 return@launch
             }
 
@@ -103,17 +103,20 @@ class LoginViewModel @Inject constructor(
                 password = event.password,
             )
                 .onSuccess {
-                    _toastChannel.send(UserEvent.Error(UiText.StringResource(R.string.logged_in)))
+                    val message = UiText.StringResource(R.string.logged_in)
+                    messages.add(message)
+                    _toastChannel.send(UserEvent.Success(messages))
                 }
                 .onError { error ->
                     val errorMassage = error.asUiText()
-                    _toastChannel.send(UserEvent.Error(errorMassage))
+                    messages.add(errorMassage)
+                    _toastChannel.send(UserEvent.Error(messages))
                 }
         }
     }
 
     sealed interface UserEvent {
-        data class Error(val error: UiText) : UserEvent
-        data class Errors(val errors: List<UiText>) : UserEvent
+        data class Success(val messages: List<UiText>) : UserEvent
+        data class Error(val messages: List<UiText>) : UserEvent
     }
 }

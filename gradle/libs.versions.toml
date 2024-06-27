@@ -4,6 +4,7 @@ agp = "8.2.2"
 androidx-junit = "1.1.5"
 converter-gson = "2.9.0"
 core-ktx = "1.13.1"
+core-testing = "2.2.0"
 datastore-preferences = "1.1.1"
 espresso-core = "3.5.1"
 hilt-android = "2.50"
@@ -22,10 +23,12 @@ dagger = "2.50"
 splash = "1.1.0-rc01"
 truth = "1.1"
 turbine = "1.1.0"
+androidx-core-ktx = "1.6.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-compiler" }
@@ -52,6 +55,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "androidx-core-ktx" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
