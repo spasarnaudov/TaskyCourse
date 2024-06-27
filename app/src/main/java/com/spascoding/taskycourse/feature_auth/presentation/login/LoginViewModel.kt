@@ -60,7 +60,7 @@ class LoginViewModel @Inject constructor(
             }
     }
     private fun handleChangePasswordAction(event: LoginEvent.ChangePassword) {
-        UserDataValidator.validateEmail(event.password)
+        UserDataValidator.validatePassword(event.password)
             .onSuccess {
                 state.update {
                     it.copy(

@@ -38,8 +38,8 @@ class RegisterViewModelTest {
         val event = RegisterEvent.ChangeName(name)
         viewModel.onEvent(event)
 
-        val actual = RegisterViewModelState(name = name, validName = true)
-        val expected = viewModel.state.value
+        val actual = viewModel.state.value
+        val expected = RegisterViewModelState(name = name, validName = true)
         assertThat(actual).isEqualTo(expected)
     }
 
@@ -79,7 +79,7 @@ class RegisterViewModelTest {
         advanceUntilIdle()
 
         val actual = viewModel.toastMessages.first()
-        assert(actual is RegisterViewModel.UserEvent.Success)
+        assertThat(actual is RegisterViewModel.UserEvent.Success).isTrue()
     }
 
     @Test
@@ -96,6 +96,6 @@ class RegisterViewModelTest {
         advanceUntilIdle()
 
         val actual = viewModel.toastMessages.first()
-        assert(actual is RegisterViewModel.UserEvent.Error)
+        assertThat(actual is RegisterViewModel.UserEvent.Error).isTrue()
     }
 }
