@@ -1,6 +1,6 @@
 package com.spascoding.taskycourse.feature_auth.presentation.login
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.spascoding.taskycourse.MainCoroutineRule
 import com.spascoding.taskycourse.feature_auth.data.repository.FakeAuthRepository
 import com.spascoding.taskycourse.feature_auth.presentation.register.RegisterViewModelState
@@ -35,7 +35,7 @@ class LoginViewModelTest {
 
         val actual = viewModel.state.value
         val expected = RegisterViewModelState(email = email, validEmail = true)
-        Truth.assertThat(actual).isEqualTo(expected)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -46,7 +46,7 @@ class LoginViewModelTest {
 
         val actual = viewModel.state.value
         val expected = RegisterViewModelState(password = password, validPassword = true)
-        Truth.assertThat(actual).isEqualTo(expected)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -62,7 +62,7 @@ class LoginViewModelTest {
         advanceUntilIdle()
 
         val actual = viewModel.toastMessages.first()
-        Truth.assertThat(actual is LoginViewModel.UserEvent.Success).isTrue()
+        assertThat(actual is LoginViewModel.UserEvent.Success).isTrue()
     }
 
     @Test
@@ -78,6 +78,6 @@ class LoginViewModelTest {
         advanceUntilIdle()
 
         val actual = viewModel.toastMessages.first()
-        Truth.assertThat(actual is LoginViewModel.UserEvent.Error).isTrue()
+        assertThat(actual is LoginViewModel.UserEvent.Error).isTrue()
     }
 }
