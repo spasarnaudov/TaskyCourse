@@ -70,7 +70,10 @@ private fun AgendaScreen(
 
 @Composable
 fun PreviewAgendaScreen() {
-    val state = AgendaViewModelState()
+    val state = AgendaViewModelState(
+        username = "SA",
+        month = "AUGUST",
+    )
     val mockOnEvent: (AgendaEvent) -> Unit = { event ->
         // Handle the event or leave it empty for the preview
     }
