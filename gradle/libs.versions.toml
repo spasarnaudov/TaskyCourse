@@ -1,39 +1,49 @@
-[versions]
+[versions] #===========================================================================
 activity-compose = "1.9.0"
 agp = "8.2.2"
-androidx-junit = "1.1.5"
-converter-gson = "2.9.0"
 core-ktx = "1.13.1"
-core-testing = "2.2.0"
-datastore-preferences = "1.1.1"
-espresso-core = "3.5.1"
-hilt-android = "2.50"
-hilt-android-compiler = "2.50"
-hilt-compiler = "1.2.0"
-junit = "4.13.2"
-kotlinx-coroutines-test = "1.6.2"
 lifecycle-runtime-ktx = "2.7.0" #Next versions are not stable
 compose-bom = "2024.05.00"
 material-icons-extended = "1.6.7"
-mockk = "1.10.5"
-retrofit = "2.9.0"
 kotlin = "1.9.0"
 kps = "1.9.0-1.0.13"
 dagger = "2.50"
-splash = "1.1.0-rc01"
-truth = "1.1"
-turbine = "1.1.0"
 androidx-core-ktx = "1.6.0"
 
-[libraries]
+#Dagger - Hilt
+hilt-android = "2.50"
+hilt-android-compiler = "2.50"
+hilt-compiler = "1.2.0"
+
+#Retrofit
+retrofit = "2.9.0"
+converter-gson = "2.9.0"
+
+#DataStore
+datastore-preferences = "1.1.1"
+
+#Splash
+splash = "1.1.0-rc01"
+
+#Test
+junit = "4.13.2"
+androidx-junit = "1.1.5"
+espresso-core = "3.5.1"
+truth = "1.1"
+mockk = "1.10.5"
+turbine = "1.1.0"
+kotlinx-coroutines-test = "1.6.2"
+core-testing = "2.2.0"
+
+#JUnit 5
+junit-jupiter-api = "5.10.0"
+junit-jupiter-engine = "5.10.0"
+junit-jupiter-params = "5.10.0"
+
+[libraries] #===========================================================================
+
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
-androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
-androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
-androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
-androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-compiler" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-compiler" }
-androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle-runtime-ktx" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
@@ -42,22 +52,43 @@ androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graph
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "material-icons-extended" }
-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converter-gson" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android-compiler" }
-junit = { module = "junit:junit", version.ref = "junit" }
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
-truth = { module = "com.google.truth:truth", version.ref = "truth" }
-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "androidx-core-ktx" }
 
-[plugins]
+#Dagger - Hilt
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android-compiler" }
+androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-compiler" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-compiler" }
+
+#Retrofit
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converter-gson" }
+
+#DataStore
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
+
+#Splash
+core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
+
+#Test
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
+
+#JUnit 5
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter-api" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter-engine" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit-jupiter-params" }
+
+[plugins] #===========================================================================
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 devtoolsKsp = { id = "com.google.devtools.ksp", version.ref = "kps" }

@@ -3,22 +3,20 @@ package com.spascoding.taskycourse.feature_auth.presentation.util
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert
 import org.junit.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 
 class NameInitialsExtractorTest {
 
-    @Test
-    fun `Extract form one word`() {
-        val oneWordName = "Spas"
-        val actual = NameInitialsExtractor(oneWordName).extract()
-        val expected = "SP"
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun `Extract form multiple word`() {
-        val multipleWordName = "Spas Arnaudov"
-        val actual = NameInitialsExtractor(multipleWordName).extract()
-        val expected = "SA"
+    @ParameterizedTest
+    @CsvSource(
+        "Spas, SP",
+        "Spas Arnaudov, SA",
+        "Spas    Arnaudov, SA",
+        "Spas Georgiev Arnaudov, SA",
+    )
+    fun testExtractInitials(name: String, expected: String) {
+        val actual = NameInitialsExtractor(name).extract()
         assertThat(actual).isEqualTo(expected)
     }
 
