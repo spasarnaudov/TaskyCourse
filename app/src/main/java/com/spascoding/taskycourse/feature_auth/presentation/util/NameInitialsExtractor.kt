@@ -6,7 +6,7 @@ class NameInitialsExtractor(val name: String) {
         return when(wordCount(name)) {
             0 -> throw IllegalArgumentException("Name must contains minimum two letters")
             1 -> extractFromOneWord()
-            else -> extractFromMoreThanTwoWords()
+            else -> extractFromMoreThanOneWord()
         }
     }
 
@@ -14,10 +14,10 @@ class NameInitialsExtractor(val name: String) {
         return "${name[0]}${name[1]}".uppercase()
     }
 
-    private fun extractFromMoreThanTwoWords(): String {
+    private fun extractFromMoreThanOneWord(): String {
         val words = name.split("\\s+".toRegex())
         val firstName = words[0]
-        val secondName = words[1]
+        val secondName = words[words.size - 1]
         return "${firstName[0]}${secondName[0]}".uppercase()
     }
 
