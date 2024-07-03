@@ -9,6 +9,8 @@ import com.spascoding.taskycourse.core.data.onSuccess
 import com.spascoding.taskycourse.core.presentation.UiText
 import com.spascoding.taskycourse.core.presentation.asUiText
 import com.spascoding.taskycourse.feature_agenda.domain.repository.AgendaRepository
+import com.spascoding.taskycourse.feature_agenda.presentation.utils.Month
+import com.spascoding.taskycourse.feature_agenda.presentation.utils.MonthExtractor
 import com.spascoding.taskycourse.feature_auth.presentation.util.NameInitialsExtractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -58,6 +60,14 @@ class AgendaViewModel @Inject constructor(
                             val errorMassage = error.asUiText()
                             _toastChannel.send(UserEvent.Error(errorMassage))
                         }
+                }
+            }
+            is AgendaEvent.SelectDateAction -> {
+                val month = MonthExtractor(event.date).extract()
+                state.update {
+                    it.copy(
+                        month = Month.get(month).description,
+                    )
                 }
             }
         }

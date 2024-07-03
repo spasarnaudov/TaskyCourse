@@ -109,6 +109,8 @@ dependencies {
     testImplementation(libs.junit.jupiter.params)
     androidTestImplementation(libs.junit.jupiter.api)
     androidTestRuntimeOnly(libs.junit.jupiter.engine)
+
+    implementation("io.github.vanpra.compose-material-dialogs:datetime:0.9.0")
 }
 
 tasks.withType<Test> {
