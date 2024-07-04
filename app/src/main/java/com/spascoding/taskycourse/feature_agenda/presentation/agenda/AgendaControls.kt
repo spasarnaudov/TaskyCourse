@@ -31,6 +31,8 @@ import com.spascoding.taskycourse.feature_agenda.presentation.components.DatePic
 import com.spascoding.taskycourse.feature_agenda.presentation.components.defaultDateTimeDialogButtons
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun AgendaControls(
@@ -56,11 +58,11 @@ fun AgendaControls(
             verticalAlignment = Alignment.CenterVertically
         ) {
             DatePicker(
-                buttonText = state.month,
+                buttonText = state.date.month.getDisplayName(TextStyle.FULL, Locale.ENGLISH).uppercase(),
                 buttons = { defaultDateTimeDialogButtons() }
             ) {
                 datepicker(colors = DatePickerDefaults.colors(headerBackgroundColor = Color.Black)) {
-                    onEvent(AgendaEvent.SelectDateAction(it.toString()))
+                    onEvent(AgendaEvent.SelectDateAction(it))
                 }
             }
             Spacer(modifier = Modifier.weight(1f))

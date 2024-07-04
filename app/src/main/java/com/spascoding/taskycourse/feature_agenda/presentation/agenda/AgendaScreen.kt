@@ -17,8 +17,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.spascoding.taskycourse.core.constants.RoundCorner
 import com.spascoding.taskycourse.core.presentation.ObserveAsEvents
-import com.spascoding.taskycourse.feature_agenda.presentation.utils.Month
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
+import java.time.LocalDate
 
 @Composable
 fun AgendaScreenRoot(
@@ -65,6 +65,7 @@ private fun AgendaScreen(
                     )
                 ),
         ) {
+            AgendaDaysList(state)
         }
     }
 }
@@ -73,7 +74,7 @@ private fun AgendaScreen(
 fun PreviewAgendaScreen() {
     val state = AgendaViewModelState(
         username = "SA",
-        month = Month.get().description,
+        date = LocalDate.now(),
     )
     val mockOnEvent: (AgendaEvent) -> Unit = { event ->
         // Handle the event or leave it empty for the preview

@@ -38,6 +38,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -110,7 +111,9 @@ dependencies {
     androidTestImplementation(libs.junit.jupiter.api)
     androidTestRuntimeOnly(libs.junit.jupiter.engine)
 
-    implementation("io.github.vanpra.compose-material-dialogs:datetime:0.9.0")
+    //Date
+    implementation(libs.datetime)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
 
 tasks.withType<Test> {

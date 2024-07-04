@@ -1,8 +1,8 @@
 package com.spascoding.taskycourse.feature_agenda.presentation.agenda
 
-import com.spascoding.taskycourse.feature_agenda.presentation.utils.Month
+import java.time.LocalDate
 
 data class AgendaViewModelState(
     val username: String = "",
-    val month: String = Month.get().description,
+    val date: LocalDate = LocalDate.now(),
 )
