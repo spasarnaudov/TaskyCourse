@@ -60,10 +60,18 @@ class AgendaViewModel @Inject constructor(
                         }
                 }
             }
+            is AgendaEvent.SelectCalendarDateAction -> {
+                state.update {
+                    it.copy(
+                        calendarDate = event.date,
+                        selectedDate = event.date,
+                    )
+                }
+            }
             is AgendaEvent.SelectDateAction -> {
                 state.update {
                     it.copy(
-                        date = event.date,
+                        selectedDate = event.date,
                     )
                 }
             }

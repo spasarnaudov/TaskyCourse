@@ -4,5 +4,6 @@ import java.time.LocalDate
 
 data class AgendaViewModelState(
     val username: String = "",
-    val date: LocalDate = LocalDate.now(),
+    val calendarDate: LocalDate = LocalDate.now(),
+    val selectedDate: LocalDate = calendarDate,
 )

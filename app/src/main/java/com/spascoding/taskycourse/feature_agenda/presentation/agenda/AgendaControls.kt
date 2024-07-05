@@ -58,11 +58,11 @@ fun AgendaControls(
             verticalAlignment = Alignment.CenterVertically
         ) {
             DatePicker(
-                buttonText = state.date.month.getDisplayName(TextStyle.FULL, Locale.ENGLISH).uppercase(),
+                buttonText = state.calendarDate.month.getDisplayName(TextStyle.FULL, Locale.ENGLISH).uppercase(),
                 buttons = { defaultDateTimeDialogButtons() }
             ) {
                 datepicker(colors = DatePickerDefaults.colors(headerBackgroundColor = Color.Black)) {
-                    onEvent(AgendaEvent.SelectDateAction(it))
+                    onEvent(AgendaEvent.SelectCalendarDateAction(it))
                 }
             }
             Spacer(modifier = Modifier.weight(1f))

@@ -52,7 +52,7 @@ private fun AgendaScreen(
     ) {
         AgendaControls(
             state,
-            onEvent
+            onEvent,
         )
         Column(
             modifier = Modifier
@@ -65,7 +65,10 @@ private fun AgendaScreen(
                     )
                 ),
         ) {
-            AgendaDaysList(state)
+            AgendaDaysList(
+                state,
+                onEvent,
+            )
         }
     }
 }
@@ -74,7 +77,7 @@ private fun AgendaScreen(
 fun PreviewAgendaScreen() {
     val state = AgendaViewModelState(
         username = "SA",
-        date = LocalDate.now(),
+        calendarDate = LocalDate.now(),
     )
     val mockOnEvent: (AgendaEvent) -> Unit = { event ->
         // Handle the event or leave it empty for the preview
