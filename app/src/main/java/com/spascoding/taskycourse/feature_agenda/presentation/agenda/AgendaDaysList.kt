@@ -29,27 +29,37 @@ import com.spascoding.taskycourse.core.constants.Colors
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun AgendaDaysList(
     state: AgendaViewModelState,
     onEvent: (AgendaEvent) -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(Padding.MEDIUM)
-    ) {
-        var date = state.calendarDate
-        for (i in 1..6) {
-            DayElement(
-                state,
-                onEvent,
-                modifier = Modifier.weight(1f),
-                date,
-            )
-            date = date.plusDays(1)
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Padding.MEDIUM)
+        ) {
+            var date = state.calendarDate
+            for (i in 1..6) {
+                DayElement(
+                    state,
+                    onEvent,
+                    modifier = Modifier.weight(1f),
+                    date,
+                )
+                date = date.plusDays(1)
+            }
         }
+        Text(
+            modifier = Modifier.padding(Padding.MEDIUM),
+            text = state.selectedDate.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
+            fontWeight = FontWeight.Bold,
+            fontSize = 28.sp,
+            color = Colors.Black,
+        )
     }
 }
 
