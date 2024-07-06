@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_agenda.presentation.agenda
+package com.spascoding.taskycourse.feature_agenda.presentation.agenda.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.Colors
 import com.spascoding.taskycourse.core.constants.Padding
+import com.spascoding.taskycourse.feature_agenda.presentation.agenda.AgendaEvent
+import com.spascoding.taskycourse.feature_agenda.presentation.agenda.AgendaViewModelState
 import com.spascoding.taskycourse.feature_agenda.presentation.components.DatePicker
 import com.spascoding.taskycourse.feature_agenda.presentation.components.defaultDateTimeDialogButtons
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults

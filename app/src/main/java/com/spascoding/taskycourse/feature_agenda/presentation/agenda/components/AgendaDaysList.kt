@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_agenda.presentation.agenda
+package com.spascoding.taskycourse.feature_agenda.presentation.agenda.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,8 +28,10 @@ import androidx.compose.ui.unit.sp
 import com.spascoding.taskycourse.core.constants.Colors
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
+import com.spascoding.taskycourse.feature_agenda.presentation.agenda.AgendaEvent
+import com.spascoding.taskycourse.feature_agenda.presentation.agenda.AgendaViewModelState
+import com.spascoding.taskycourse.feature_agenda.presentation.utils.DATE_FORMAT
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun AgendaDaysList(
@@ -55,7 +57,7 @@ fun AgendaDaysList(
         }
         Text(
             modifier = Modifier.padding(Padding.MEDIUM),
-            text = state.selectedDate.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
+            text = state.selectedDate.format(DATE_FORMAT),
             fontWeight = FontWeight.Bold,
             fontSize = 28.sp,
             color = Colors.Black,

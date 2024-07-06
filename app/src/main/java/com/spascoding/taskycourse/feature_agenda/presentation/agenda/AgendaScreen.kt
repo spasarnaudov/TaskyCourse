@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,7 +26,11 @@ import com.spascoding.taskycourse.core.constants.RoundCorner
 import com.spascoding.taskycourse.core.presentation.ObserveAsEvents
 import com.spascoding.taskycourse.core.presentation.fab.ExpandableFab
 import com.spascoding.taskycourse.core.presentation.fab.FabItem
-import com.spascoding.taskycourse.feature_agenda.constants.AgendaItem
+import com.spascoding.taskycourse.feature_agenda.constants.AgendaItemType
+import com.spascoding.taskycourse.feature_agenda.domain.agenda.model.AgendaItem
+import com.spascoding.taskycourse.feature_agenda.presentation.agenda.components.AgendaControls
+import com.spascoding.taskycourse.feature_agenda.presentation.agenda.components.AgendaDaysList
+import com.spascoding.taskycourse.feature_agenda.presentation.agenda.components.AgendaItemView
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
 import java.time.LocalDate
 
@@ -61,18 +64,18 @@ private fun AgendaScreen(
         floatingActionButton = {
             ExpandableFab(
                 fabItems = listOf(
-                    FabItem(id = AgendaItem.EVENT.index, text = stringResource(R.string.event)),
-                    FabItem(id = AgendaItem.TASK.index, text = stringResource(R.string.task)),
+                    FabItem(id = AgendaItemType.EVENT.index, text = stringResource(R.string.event)),
+                    FabItem(id = AgendaItemType.TASK.index, text = stringResource(R.string.task)),
                     FabItem(
-                        id = AgendaItem.REMAINDER.index,
+                        id = AgendaItemType.REMAINDER.index,
                         text = stringResource(R.string.remainder)
                     ),
                 ),
                 onFABClick = {
                     when (it) {
-                        AgendaItem.EVENT.index -> {}
-                        AgendaItem.TASK.index -> {}
-                        AgendaItem.REMAINDER.index -> {}
+                        AgendaItemType.EVENT.index -> {}
+                        AgendaItemType.TASK.index -> {}
+                        AgendaItemType.REMAINDER.index -> {}
                     }
                 }
             )
@@ -109,8 +112,12 @@ private fun AgendaScreen(
                         .padding(innerPadding),
                     state = rememberLazyListState(),
                 ) {
-                    items(50) {
-                        Text("test")
+                    items(state.agendaItems.size) { index ->
+                        AgendaItemView(
+                            agendaItem = state.agendaItems[index],
+                            state = state,
+                            onEvent = onEvent
+                        )
                     }
                 }
             }
@@ -123,6 +130,21 @@ fun PreviewAgendaScreen() {
     val state = AgendaViewModelState(
         username = "SA",
         calendarDate = LocalDate.now(),
+        agendaItems = listOf(
+            AgendaItem(
+                title = "Title",
+                description = "Description",
+                from = LocalDate.now(),
+                to = LocalDate.now(),
+                done = true,
+            ),
+            AgendaItem(
+                title = "Title",
+                description = "Description",
+                from = LocalDate.now(),
+                done = false,
+            ),
+        )
     )
     val mockOnEvent: (AgendaEvent) -> Unit = { event ->
         // Handle the event or leave it empty for the preview
