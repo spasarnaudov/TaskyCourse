@@ -54,13 +54,16 @@
     <string name="unknown_error">Unknown error</string>
 
     <!--  name error  -->
+
     <string name="name_too_short">Too short name</string>
     <string name="name_too_long">Too long name</string>
 
     <!--  email error  -->
+
     <string name="email_invalid">Invalid email</string>
 
     <!--  password error  -->
+
     <string name="password_too_short">Too short password</string>
     <string name="password_no_lowercase">No lowercase</string>
     <string name="password_no_uppercase">No uppercase</string>
@@ -88,7 +91,11 @@
     <string name="welcome_back">Welcome Back!</string>
 
     <!--  agenda_screen  -->
+
     <string name="log_out">Log out</string>
     <string name="logged_out">Logged out</string>
+    <string name="event">Event</string>
+    <string name="task">Task</string>
+    <string name="remainder">Remainder</string>
 
 </resources>
