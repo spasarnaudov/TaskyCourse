@@ -1,6 +1,5 @@
 package com.spascoding.taskycourse.feature_agenda.presentation.agenda
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -8,13 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +27,12 @@ import androidx.compose.ui.unit.dp
 import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.constants.Colors
 import com.spascoding.taskycourse.core.constants.Padding
+import com.spascoding.taskycourse.feature_agenda.presentation.components.DatePicker
+import com.spascoding.taskycourse.feature_agenda.presentation.components.defaultDateTimeDialogButtons
+import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun AgendaControls(
@@ -55,19 +57,13 @@ fun AgendaControls(
             modifier = Modifier.padding(Padding.MEDIUM),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.clickable { }
+            DatePicker(
+                buttonText = state.calendarDate.month.getDisplayName(TextStyle.FULL, Locale.ENGLISH).uppercase(),
+                buttons = { defaultDateTimeDialogButtons() }
             ) {
-                Text(
-                    text = state.month,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
-                Icon(
-                    imageVector = Icons.Default.ArrowDropDown,
-                    contentDescription = null,
-                    tint = Color.White
-                )
+                datepicker(colors = DatePickerDefaults.colors(headerBackgroundColor = Color.Black)) {
+                    onEvent(AgendaEvent.SelectCalendarDateAction(it))
+                }
             }
             Spacer(modifier = Modifier.weight(1f))
             Button(
