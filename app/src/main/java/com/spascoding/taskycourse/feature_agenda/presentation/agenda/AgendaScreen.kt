@@ -64,18 +64,15 @@ private fun AgendaScreen(
         floatingActionButton = {
             ExpandableFab(
                 fabItems = listOf(
-                    FabItem(id = AgendaItemType.EVENT.index, text = stringResource(R.string.event)),
-                    FabItem(id = AgendaItemType.TASK.index, text = stringResource(R.string.task)),
-                    FabItem(
-                        id = AgendaItemType.REMAINDER.index,
-                        text = stringResource(R.string.remainder)
-                    ),
+                    FabItem(id = AgendaItemType.EVENT.ordinal, text = stringResource(R.string.event)),
+                    FabItem(id = AgendaItemType.TASK.ordinal, text = stringResource(R.string.task)),
+                    FabItem(id = AgendaItemType.REMAINDER.ordinal, text = stringResource(R.string.remainder)),
                 ),
                 onFABClick = {
                     when (it) {
-                        AgendaItemType.EVENT.index -> {}
-                        AgendaItemType.TASK.index -> {}
-                        AgendaItemType.REMAINDER.index -> {}
+                        AgendaItemType.EVENT.ordinal -> {}
+                        AgendaItemType.TASK.ordinal -> {}
+                        AgendaItemType.REMAINDER.ordinal -> {}
                     }
                 }
             )
