@@ -75,6 +75,12 @@ class AgendaViewModel @Inject constructor(
                     )
                 }
             }
+            is AgendaEvent.SelectAgendaItemMenu -> {
+
+            }
+            is AgendaEvent.SelectAgendaDone -> {
+
+            }
         }
     }
 

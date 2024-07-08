@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_agenda.presentation.agenda
+package com.spascoding.taskycourse.feature_agenda.presentation.agenda.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,6 +28,9 @@ import androidx.compose.ui.unit.sp
 import com.spascoding.taskycourse.core.constants.Colors
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
+import com.spascoding.taskycourse.feature_agenda.presentation.agenda.AgendaEvent
+import com.spascoding.taskycourse.feature_agenda.presentation.agenda.AgendaViewModelState
+import com.spascoding.taskycourse.feature_agenda.presentation.utils.DATE_FORMAT
 import java.time.LocalDate
 
 @Composable
@@ -35,21 +38,30 @@ fun AgendaDaysList(
     state: AgendaViewModelState,
     onEvent: (AgendaEvent) -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(Padding.MEDIUM)
-    ) {
-        var date = state.calendarDate
-        for (i in 1..6) {
-            DayElement(
-                state,
-                onEvent,
-                modifier = Modifier.weight(1f),
-                date,
-            )
-            date = date.plusDays(1)
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Padding.MEDIUM)
+        ) {
+            var date = state.calendarDate
+            for (i in 1..6) {
+                DayElement(
+                    state,
+                    onEvent,
+                    modifier = Modifier.weight(1f),
+                    date,
+                )
+                date = date.plusDays(1)
+            }
         }
+        Text(
+            modifier = Modifier.padding(Padding.MEDIUM),
+            text = state.selectedDate.format(DATE_FORMAT),
+            fontWeight = FontWeight.Bold,
+            fontSize = 28.sp,
+            color = Colors.Black,
+        )
     }
 }
 
