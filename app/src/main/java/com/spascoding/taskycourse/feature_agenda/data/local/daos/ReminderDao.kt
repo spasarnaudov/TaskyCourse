@@ -1,10 +1,11 @@
-package com.spascoding.taskycourse.feature_agenda.data.local.reminder
+package com.spascoding.taskycourse.feature_agenda.data.local.daos
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
+import com.spascoding.taskycourse.feature_agenda.data.local.entities.Reminder
 
 @Dao
 interface ReminderDao {

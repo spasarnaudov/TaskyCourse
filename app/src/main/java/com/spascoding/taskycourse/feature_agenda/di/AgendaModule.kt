@@ -3,7 +3,7 @@ package com.spascoding.taskycourse.feature_agenda.di
 import android.content.Context
 import androidx.room.Room
 import com.spascoding.taskycourse.core.data.local.UserInfoManager
-import com.spascoding.taskycourse.feature_agenda.data.local.AgendaDao
+import com.spascoding.taskycourse.feature_agenda.data.local.daos.AgendaDao
 import com.spascoding.taskycourse.feature_agenda.data.local.AgendaDatabase
 import com.spascoding.taskycourse.feature_agenda.data.remote.AgendaApi
 import com.spascoding.taskycourse.feature_agenda.data.repository.AgendaRepositoryImpl

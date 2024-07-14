@@ -4,7 +4,7 @@ import com.spascoding.taskycourse.core.data.Result
 import com.spascoding.taskycourse.core.data.local.UserInfoManager
 import com.spascoding.taskycourse.core.data.util.RequestHelper
 import com.spascoding.taskycourse.core.domain.DataError
-import com.spascoding.taskycourse.feature_agenda.data.local.AgendaDao
+import com.spascoding.taskycourse.feature_agenda.data.local.daos.AgendaDao
 import com.spascoding.taskycourse.feature_agenda.data.remote.AgendaApi
 import com.spascoding.taskycourse.feature_agenda.domain.repository.AgendaRepository
 import javax.inject.Inject

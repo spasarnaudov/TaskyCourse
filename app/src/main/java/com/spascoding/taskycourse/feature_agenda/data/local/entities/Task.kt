@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_agenda.data.local.task
+package com.spascoding.taskycourse.feature_agenda.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

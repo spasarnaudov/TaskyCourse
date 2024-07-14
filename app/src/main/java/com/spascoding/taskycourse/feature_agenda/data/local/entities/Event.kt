@@ -1,4 +1,4 @@
-package com.spascoding.taskycourse.feature_agenda.data.local.event
+package com.spascoding.taskycourse.feature_agenda.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,6 +13,4 @@ data class Event(
     val remindAt: Long,
     val host: String,
     val isUserEventCreator: Boolean,
-    val attendeeIds: List<String>,
-    val photos: List<Photo>
 )
