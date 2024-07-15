@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.spascoding.taskycourse.core.data.local.UserInfoManager
 import com.spascoding.taskycourse.feature_agenda.data.local.daos.AgendaDao
-import com.spascoding.taskycourse.feature_agenda.data.local.AgendaDatabase
+import com.spascoding.taskycourse.feature_agenda.data.local.TaskyDatabase
 import com.spascoding.taskycourse.feature_agenda.data.remote.AgendaApi
 import com.spascoding.taskycourse.feature_agenda.data.repository.AgendaRepositoryImpl
 import com.spascoding.taskycourse.feature_agenda.domain.repository.AgendaRepository
@@ -38,17 +38,17 @@ class AgendaModule {
 
     @Provides
     @Singleton
-    fun provideEnglishStructureDatabase(@ApplicationContext context: Context): AgendaDatabase {
+    fun provideDatabase(@ApplicationContext context: Context): TaskyDatabase {
         return Room.databaseBuilder(
             context,
-            AgendaDatabase::class.java, "agenda-db"
+            TaskyDatabase::class.java, "tasky-db"
         ).build()
     }
 
     @Provides
     @Singleton
-    fun provideEnglishStructureDao(database: AgendaDatabase): AgendaDao {
-        return database.dao
+    fun provideAgendaDao(database: TaskyDatabase): AgendaDao {
+        return database.agendaDao
     }
 
 }

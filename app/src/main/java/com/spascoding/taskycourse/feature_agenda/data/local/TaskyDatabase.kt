@@ -3,9 +3,11 @@ package com.spascoding.taskycourse.feature_agenda.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.spascoding.taskycourse.feature_agenda.data.local.daos.AgendaDao
+import com.spascoding.taskycourse.feature_agenda.data.local.daos.EventDao
+import com.spascoding.taskycourse.feature_agenda.data.local.daos.ReminderDao
+import com.spascoding.taskycourse.feature_agenda.data.local.daos.TaskDao
 import com.spascoding.taskycourse.feature_agenda.data.local.entities.Attendee
 import com.spascoding.taskycourse.feature_agenda.data.local.entities.Event
-import com.spascoding.taskycourse.feature_agenda.data.local.entities.Photo
 import com.spascoding.taskycourse.feature_agenda.data.local.entities.Reminder
 import com.spascoding.taskycourse.feature_agenda.data.local.entities.Task
 
@@ -13,11 +15,13 @@ import com.spascoding.taskycourse.feature_agenda.data.local.entities.Task
     entities = [
         Event::class,
         Attendee::class,
-        Photo::class,
         Task::class,
         Reminder::class],
     version = 1,
 )
-abstract class AgendaDatabase: RoomDatabase() {
-    abstract val dao: AgendaDao
+abstract class TaskyDatabase: RoomDatabase() {
+    abstract val agendaDao: AgendaDao
+    abstract val eventDao: EventDao
+    abstract val reminderDao: ReminderDao
+    abstract val taskDao: TaskDao
 }
