@@ -7,6 +7,7 @@ object Colors {
     val DarkGray = Color(0xFF5C5D5A)
     val LightBlue  = Color(0xFFA1A4B2)
     val Green  = Color(0xFF279F70)
+    val LightGreen  = Color(0xFFCAEF45)
     val Red  = Color(0xFFFF7272)
     val Black  = Color(0xFF16161C)
 
