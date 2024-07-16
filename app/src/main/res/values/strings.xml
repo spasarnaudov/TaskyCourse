@@ -98,4 +98,8 @@
     <string name="task">Task</string>
     <string name="remainder">Remainder</string>
 
+    <!--  detail_screen  -->
+
+    <string name="save">Save</string>
+
 </resources>

@@ -58,7 +58,7 @@ fun AgendaItemView(
                             .clickable(
                                 indication = rememberRipple(color = Color.Black),
                                 interactionSource = remember { MutableInteractionSource() },
-                            ) { onEvent(AgendaEvent.SelectAgendaItemMenu) },
+                            ) {  },
                         imageVector = Icons.Default.MoreVert,
                         contentDescription = null,
                     )

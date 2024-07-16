@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.core.presentation.ObserveAsEvents
 import com.spascoding.taskycourse.core.presentation.fab.ExpandableFab
@@ -26,11 +27,13 @@ import com.spascoding.taskycourse.feature_agenda.presentation.agenda.components.
 import com.spascoding.taskycourse.feature_agenda.presentation.agenda.components.AgendaDaysList
 import com.spascoding.taskycourse.feature_agenda.presentation.agenda.components.AgendaItemView
 import com.spascoding.taskycourse.core.presentation.components.TaskyScaffold
+import com.spascoding.taskycourse.navigation.Navigation
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
 import java.time.LocalDate
 
 @Composable
 fun AgendaScreenRoot(
+    navController: NavController,
     viewModel: AgendaViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -43,9 +46,16 @@ fun AgendaScreenRoot(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    val onNavigationEvent: (AgendaEvent) -> Unit = { event ->
+        when (event) {
+            is AgendaEvent.SelectAgendaItemMenu -> navController.navigate(event.route)
+            else -> viewModel.onEvent(event)
+        }
+    }
+
     AgendaScreen(
         state = state,
-        onEvent = viewModel::onEvent
+        onEvent = onNavigationEvent
     )
 }
 
@@ -65,9 +75,9 @@ private fun AgendaScreen(
                 ),
                 onFABClick = {
                     when (it) {
-                        AgendaItemType.EVENT.ordinal -> {}
-                        AgendaItemType.TASK.ordinal -> {}
-                        AgendaItemType.REMAINDER.ordinal -> {}
+                        AgendaItemType.EVENT.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.EventDetailNavigation.route)) }
+                        AgendaItemType.TASK.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.TaskDetailNavigation.route)) }
+                        AgendaItemType.REMAINDER.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.RemainderDetailNavigation.route)) }
                     }
                 }
             )

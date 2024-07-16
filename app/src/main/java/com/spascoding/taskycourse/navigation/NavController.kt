@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.spascoding.taskycourse.feature_agenda.presentation.agenda.AgendaScreenRoot
+import com.spascoding.taskycourse.feature_agenda.presentation.detail_screen.DetailScreenRoot
 import com.spascoding.taskycourse.feature_auth.presentation.login.LoginScreenRoot
 import com.spascoding.taskycourse.feature_auth.presentation.register.RegisterScreenRoot
 
@@ -31,7 +32,16 @@ fun NavController(
             RegisterScreenRoot(navController)
         }
         composable(route = Navigation.AgendaNavigation.route) {
-            AgendaScreenRoot()
+            AgendaScreenRoot(navController)
+        }
+        composable(route = Navigation.EventDetailNavigation.route) {
+            DetailScreenRoot(navController, Navigation.EventDetailNavigation)
+        }
+        composable(route = Navigation.TaskDetailNavigation.route) {
+            DetailScreenRoot(navController, Navigation.TaskDetailNavigation)
+        }
+        composable(route = Navigation.RemainderDetailNavigation.route) {
+            DetailScreenRoot(navController, Navigation.RemainderDetailNavigation)
         }
     }
 }
