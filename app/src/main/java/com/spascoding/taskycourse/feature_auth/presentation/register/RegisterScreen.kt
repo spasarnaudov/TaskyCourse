@@ -34,6 +34,7 @@ import com.spascoding.taskycourse.core.constants.FontSize
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
 import com.spascoding.taskycourse.core.presentation.ObserveAsEvents
+import com.spascoding.taskycourse.core.presentation.components.TaskyScaffold
 import com.spascoding.taskycourse.feature_auth.presentation.components.DefaultTextField
 import com.spascoding.taskycourse.feature_auth.presentation.components.PasswordOutlinedTextField
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
@@ -83,115 +84,114 @@ private fun RegisterScreen(
     state: RegisterViewModelState,
     onEvent: (RegisterEvent) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.primary),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    TaskyScaffold(
+        topBar = {
+            Text(
+                modifier = Modifier.padding(vertical = Padding.LARGE),
+                text = stringResource(R.string.create_your_account),
+                fontSize = FontSize.LARGE,
+                fontWeight = FontWeight.Bold,
+            )
+        }
     ) {
-        Text(
-            modifier = Modifier.padding(vertical = Padding.LARGE),
-            text = stringResource(R.string.create_your_account),
-            fontSize = FontSize.LARGE,
-            fontWeight = FontWeight.Bold,
+        RegisterContent(
+            state = state,
+            onEvent = onEvent
         )
-        Column(
+    }
+}
+
+@Composable
+private fun RegisterContent(
+    state: RegisterViewModelState,
+    onEvent: (RegisterEvent) -> Unit
+) {
+    Column {
+        DefaultTextField(
             modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    color = Color.White,
-                    shape = RoundedCornerShape(
-                        topStart = RoundCorner.LARGE,
-                        topEnd = RoundCorner.LARGE,
-                    )
+                .fillMaxWidth()
+                .padding(
+                    start = Padding.MEDIUM,
+                    top = Padding.LARGE,
+                    end = Padding.MEDIUM,
                 ),
+            value = state.name,
+            placeholder = stringResource(R.string.name),
+            valid = state.validName,
+            onValueChange = {
+                onEvent(RegisterEvent.ChangeName(it))
+            },
+        )
+        DefaultTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = Padding.MEDIUM,
+                    top = Padding.MEDIUM,
+                    end = Padding.MEDIUM,
+                ),
+            value = state.email,
+            placeholder = stringResource(R.string.email_address),
+            valid = state.validEmail,
+            onValueChange = {
+                onEvent(RegisterEvent.ChangeEmail(it))
+            },
+        )
+        PasswordOutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = Padding.MEDIUM,
+                    top = Padding.MEDIUM,
+                    end = Padding.MEDIUM,
+                ),
+            value = state.password,
+            placeholder = stringResource(R.string.password),
+            onValueChange = {
+                onEvent(RegisterEvent.ChangePassword(it))
+            },
+        )
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .padding(
+                    start = Padding.MEDIUM,
+                    top = Padding.LARGE,
+                    end = Padding.MEDIUM,
+                ),
+            onClick = {
+                onEvent(RegisterEvent.RegisterAction(
+                    state.name,
+                    state.email,
+                    state.password,
+                ))
+            }) {
+            Text(
+                text = stringResource(R.string.get_started).uppercase(),
+                fontWeight = FontWeight.Bold,
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(bottom = Padding.LARGE),
+            contentAlignment = Alignment.BottomStart
         ) {
-            DefaultTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = Padding.MEDIUM,
-                        top = Padding.LARGE,
-                        end = Padding.MEDIUM,
-                    ),
-                value = state.name,
-                placeholder = stringResource(R.string.name),
-                valid = state.validName,
-                onValueChange = {
-                    onEvent(RegisterEvent.ChangeName(it))
-                },
-            )
-            DefaultTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = Padding.MEDIUM,
-                        top = Padding.MEDIUM,
-                        end = Padding.MEDIUM,
-                    ),
-                value = state.email,
-                placeholder = stringResource(R.string.email_address),
-                valid = state.validEmail,
-                onValueChange = {
-                    onEvent(RegisterEvent.ChangeEmail(it))
-                },
-            )
-            PasswordOutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = Padding.MEDIUM,
-                        top = Padding.MEDIUM,
-                        end = Padding.MEDIUM,
-                    ),
-                value = state.password,
-                placeholder = stringResource(R.string.password),
-                onValueChange = {
-                    onEvent(RegisterEvent.ChangePassword(it))
-                },
-            )
             Button(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .padding(
-                        start = Padding.MEDIUM,
-                        top = Padding.LARGE,
-                        end = Padding.MEDIUM,
-                    ),
+                    .size(100.dp)
+                    .padding(Padding.MEDIUM),
+                shape = RoundedCornerShape(RoundCorner.MEDIUM),
                 onClick = {
-                    onEvent(RegisterEvent.RegisterAction(
-                        state.name,
-                        state.email,
-                        state.password,
-                    ))
+                    onEvent(RegisterEvent.BackAction)
                 }) {
-                Text(
-                    text = stringResource(R.string.get_started).uppercase(),
-                    fontWeight = FontWeight.Bold,
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowLeft,
+                    contentDescription = null
                 )
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .padding(bottom = Padding.LARGE),
-                contentAlignment = Alignment.BottomStart
-            ) {
-                Button(
-                    modifier = Modifier
-                        .size(100.dp)
-                        .padding(Padding.MEDIUM),
-                    shape = RoundedCornerShape(RoundCorner.MEDIUM),
-                    onClick = {
-                        onEvent(RegisterEvent.BackAction)
-                    }) {
-                    Icon(
-                        imageVector = Icons.Default.KeyboardArrowLeft,
-                        contentDescription = null
-                    )
-                }
-            }
-
         }
     }
 }
