@@ -15,5 +15,5 @@ data class Event(
     val remindAt: Long,
     val host: String,
     val isUserEventCreator: Boolean,
-    val photos: List<String>?
+    val photos: String?
 )
