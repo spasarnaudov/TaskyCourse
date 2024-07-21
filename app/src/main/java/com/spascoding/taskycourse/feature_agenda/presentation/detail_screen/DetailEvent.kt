@@ -5,4 +5,5 @@ sealed interface DetailEvent {
     data object SaveAction : DetailEvent
     data object EditAction : DetailEvent
     data object DeleteAction : DetailEvent
+    data object PopBackStack : DetailEvent
 }

@@ -22,7 +22,6 @@ import com.spascoding.taskycourse.feature_agenda.presentation.utils.DATE_FORMAT
 
 @Composable
 fun Controls(
-    navController: NavController,
     state: DetailViewModelState,
     onEvent: (DetailEvent) -> Unit,
 ) {
@@ -30,7 +29,7 @@ fun Controls(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Button(onClick = { navController.popBackStack() }) {
+        Button(onClick = { onEvent(DetailEvent.PopBackStack) }) {
             Icon(imageVector = Icons.Outlined.Close, contentDescription = null)
         }
         Text(

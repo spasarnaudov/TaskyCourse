@@ -28,6 +28,7 @@ class DetailViewModel @Inject constructor() : ViewModel() {
                     state.value.copy(isEditMode = false)
                 }
             }
+            DetailEvent.PopBackStack -> {}
         }
     }
 }

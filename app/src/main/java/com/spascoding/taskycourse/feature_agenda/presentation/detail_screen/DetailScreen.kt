@@ -29,12 +29,14 @@ fun DetailScreenRoot(
 
     val onEvent: (DetailEvent) -> Unit = { event ->
         when (event) {
+            is DetailEvent.PopBackStack -> {
+                navController.popBackStack()
+            }
             else -> viewModel.onEvent(event)
         }
     }
 
     DetailScreen(
-        navController = navController,
         navigation = navigation,
         state = state,
         onEvent = onEvent,
@@ -43,7 +45,6 @@ fun DetailScreenRoot(
 
 @Composable
 private fun DetailScreen(
-    navController: NavController,
     navigation: Navigation,
     state: DetailViewModelState,
     onEvent: (DetailEvent) -> Unit,
@@ -51,7 +52,6 @@ private fun DetailScreen(
     TaskyScaffold(
         topBar = {
             Controls(
-                navController = navController,
                 state = state,
                 onEvent = onEvent,
             )
