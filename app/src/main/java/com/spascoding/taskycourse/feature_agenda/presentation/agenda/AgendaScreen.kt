@@ -2,27 +2,22 @@ package com.spascoding.taskycourse.feature_agenda.presentation.agenda
 
 import android.annotation.SuppressLint
 import android.widget.Toast
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.spascoding.taskycourse.R
-import com.spascoding.taskycourse.core.constants.RoundCorner
 import com.spascoding.taskycourse.core.presentation.ObserveAsEvents
 import com.spascoding.taskycourse.core.presentation.fab.ExpandableFab
 import com.spascoding.taskycourse.core.presentation.fab.FabItem
@@ -31,11 +26,14 @@ import com.spascoding.taskycourse.feature_agenda.domain.agenda.model.AgendaItem
 import com.spascoding.taskycourse.feature_agenda.presentation.agenda.components.AgendaControls
 import com.spascoding.taskycourse.feature_agenda.presentation.agenda.components.AgendaDaysList
 import com.spascoding.taskycourse.feature_agenda.presentation.agenda.components.AgendaItemView
+import com.spascoding.taskycourse.core.presentation.components.TaskyScaffold
+import com.spascoding.taskycourse.navigation.Navigation
 import com.spascoding.taskycourse.ui.theme.TaskyCourseTheme
 import java.time.LocalDate
 
 @Composable
 fun AgendaScreenRoot(
+    navController: NavController,
     viewModel: AgendaViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -48,9 +46,16 @@ fun AgendaScreenRoot(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    val onNavigationEvent: (AgendaEvent) -> Unit = { event ->
+        when (event) {
+            is AgendaEvent.SelectAgendaItemMenu -> navController.navigate(event.route)
+            else -> viewModel.onEvent(event)
+        }
+    }
+
     AgendaScreen(
         state = state,
-        onEvent = viewModel::onEvent
+        onEvent = onNavigationEvent
     )
 }
 
@@ -70,54 +75,53 @@ private fun AgendaScreen(
                 ),
                 onFABClick = {
                     when (it) {
-                        AgendaItemType.EVENT.ordinal -> {}
-                        AgendaItemType.TASK.ordinal -> {}
-                        AgendaItemType.REMAINDER.ordinal -> {}
+                        AgendaItemType.EVENT.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.EventDetailNavigation.route)) }
+                        AgendaItemType.TASK.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.TaskDetailNavigation.route)) }
+                        AgendaItemType.REMAINDER.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.RemainderDetailNavigation.route)) }
                     }
                 }
             )
         },
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .background(MaterialTheme.colorScheme.primary),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            AgendaControls(
-                state,
-                onEvent,
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(
-                            topStart = RoundCorner.LARGE,
-                            topEnd = RoundCorner.LARGE,
-                        )
-                    ),
-            ) {
-                AgendaDaysList(
+        TaskyScaffold(
+            topBar = {
+                AgendaControls(
                     state,
                     onEvent,
                 )
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    state = rememberLazyListState(),
-                ) {
-                    items(state.agendaItems.size) { index ->
-                        AgendaItemView(
-                            agendaItem = state.agendaItems[index],
-                            state = state,
-                            onEvent = onEvent
-                        )
-                    }
-                }
             }
+        ) {
+            AgendaContent(
+                innerPadding = innerPadding,
+                state = state,
+                onEvent = onEvent
+            )
+        }
+    }
+}
+
+@Composable
+private fun AgendaContent(
+    innerPadding: PaddingValues,
+    state: AgendaViewModelState,
+    onEvent: (AgendaEvent) -> Unit
+) {
+    AgendaDaysList(
+        state,
+        onEvent,
+    )
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(innerPadding),
+        state = rememberLazyListState(),
+    ) {
+        items(state.agendaItems.size) { index ->
+            AgendaItemView(
+                agendaItem = state.agendaItems[index],
+                state = state,
+                onEvent = onEvent
+            )
         }
     }
 }

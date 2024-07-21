@@ -112,6 +112,12 @@ dependencies {
     //Date
     implementation(libs.datetime)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    //Room
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }
 
 tasks.withType<Test> {

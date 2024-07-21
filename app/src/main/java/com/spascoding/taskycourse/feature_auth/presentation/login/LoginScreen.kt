@@ -35,6 +35,7 @@ import com.spascoding.taskycourse.core.constants.FontSize
 import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.constants.RoundCorner
 import com.spascoding.taskycourse.core.presentation.ObserveAsEvents
+import com.spascoding.taskycourse.core.presentation.components.TaskyScaffold
 import com.spascoding.taskycourse.feature_auth.presentation.components.DefaultTextField
 import com.spascoding.taskycourse.feature_auth.presentation.components.PasswordOutlinedTextField
 import com.spascoding.taskycourse.navigation.Navigation
@@ -84,111 +85,111 @@ private fun LoginScreen(
     state: LoginViewModelState,
     onEvent: (LoginEvent) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.primary),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    TaskyScaffold(
+        topBar = {
+            Text(
+                modifier = Modifier.padding(vertical = Padding.LARGE),
+                text = stringResource(R.string.welcome_back),
+                fontSize = FontSize.LARGE,
+                fontWeight = FontWeight.Bold,
+            )
+        }
     ) {
-        Text(
-            modifier = Modifier.padding(vertical = Padding.LARGE),
-            text = stringResource(R.string.welcome_back),
-            fontSize = FontSize.LARGE,
-            fontWeight = FontWeight.Bold,
+        LoginContent(
+            state,
+            onEvent,
         )
-        Column(
+    }
+}
+
+@Composable
+private fun LoginContent(
+    state: LoginViewModelState,
+    onEvent: (LoginEvent) -> Unit
+) {
+    Column {
+        DefaultTextField(
             modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    color = Color.White,
-                    shape = RoundedCornerShape(
-                        topStart = RoundCorner.LARGE,
-                        topEnd = RoundCorner.LARGE,
-                    )
+                .fillMaxWidth()
+                .padding(
+                    start = Padding.MEDIUM,
+                    top = Padding.MEDIUM,
+                    end = Padding.MEDIUM,
                 ),
-        ) {
-            DefaultTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = Padding.MEDIUM,
-                        top = Padding.MEDIUM,
-                        end = Padding.MEDIUM,
-                    ),
-                value = state.email,
-                placeholder = stringResource(R.string.email_address),
-                valid = state.validEmail,
-                onValueChange = {
-                    onEvent(LoginEvent.ChangeEmail(it))
-                },
-            )
-            PasswordOutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = Padding.MEDIUM,
-                        top = Padding.MEDIUM,
-                        end = Padding.MEDIUM,
-                    ),
-                value = state.password,
-                placeholder = stringResource(R.string.password),
-                onValueChange = {
-                    onEvent(LoginEvent.ChangePassword(it))
-                },
-            )
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .padding(
-                        start = Padding.MEDIUM,
-                        top = Padding.LARGE,
-                        end = Padding.MEDIUM,
-                    ),
-                onClick = {
-                    onEvent(
-                        LoginEvent.LoginAction(
-                            state.email,
-                            state.password,
-                        )
+            value = state.email,
+            placeholder = stringResource(R.string.email_address),
+            valid = state.validEmail,
+            onValueChange = {
+                onEvent(LoginEvent.ChangeEmail(it))
+            },
+        )
+        PasswordOutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = Padding.MEDIUM,
+                    top = Padding.MEDIUM,
+                    end = Padding.MEDIUM,
+                ),
+            value = state.password,
+            placeholder = stringResource(R.string.password),
+            onValueChange = {
+                onEvent(LoginEvent.ChangePassword(it))
+            },
+        )
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .padding(
+                    start = Padding.MEDIUM,
+                    top = Padding.LARGE,
+                    end = Padding.MEDIUM,
+                ),
+            onClick = {
+                onEvent(
+                    LoginEvent.LoginAction(
+                        state.email,
+                        state.password,
                     )
-                }) {
-                Text(
-                    text = stringResource(R.string.log_in).uppercase(),
-                    fontWeight = FontWeight.Bold,
                 )
-            }
-            val doNotHaveAccount = buildAnnotatedString {
-                append(stringResource(R.string.don_t_have_an_account))
-                pushStringAnnotation(tag = "click", annotation = "click")
-                withStyle(
-                    SpanStyle(
-                        textDecoration = TextDecoration.Underline,
-                        color = Color.Blue
-                    )
-                ) {
-                    append(stringResource(R.string.sign_up))
-                }
-                pop()
-            }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .padding(bottom = Padding.LARGE),
-                contentAlignment = Alignment.BottomCenter
+            }) {
+            Text(
+                text = stringResource(R.string.log_in).uppercase(),
+                fontWeight = FontWeight.Bold,
+            )
+        }
+        val doNotHaveAccount = buildAnnotatedString {
+            append(stringResource(R.string.don_t_have_an_account))
+            pushStringAnnotation(tag = "click", annotation = "click")
+            withStyle(
+                SpanStyle(
+                    textDecoration = TextDecoration.Underline,
+                    color = Color.Blue
+                )
             ) {
-                ClickableText(
-                    text = doNotHaveAccount,
-                ) { offset ->
-                    doNotHaveAccount.getStringAnnotations(
-                        tag = "click",
-                        start = offset,
-                        end = offset
-                    ).firstOrNull()
-                        ?.let {
-                            onEvent(LoginEvent.SignUpAction)
-                        }
-                }
+                append(stringResource(R.string.sign_up))
+            }
+            pop()
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(bottom = Padding.LARGE),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            ClickableText(
+                text = doNotHaveAccount,
+            ) { offset ->
+                doNotHaveAccount.getStringAnnotations(
+                    tag = "click",
+                    start = offset,
+                    end = offset
+                ).firstOrNull()
+                    ?.let {
+                        onEvent(LoginEvent.SignUpAction)
+                    }
             }
         }
     }
