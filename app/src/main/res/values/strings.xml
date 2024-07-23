@@ -101,5 +101,11 @@
     <!--  detail_screen  -->
 
     <string name="save">Save</string>
+    <string name="new_event">New event</string>
+    <string name="event_description">Event description</string>
+    <string name="new_reminder">New reminder</string>
+    <string name="reminder_description">Reminder description</string>
+    <string name="new_task">New task</string>
+    <string name="task_description">Task description</string>
 
 </resources>

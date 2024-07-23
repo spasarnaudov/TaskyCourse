@@ -25,7 +25,7 @@ fun HeaderSection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = Padding.MEDIUM, vertical = Padding.MED_LARGE),
+            .padding(vertical = Padding.MED_LARGE),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (navigation is Navigation.TaskDetailNavigation) {

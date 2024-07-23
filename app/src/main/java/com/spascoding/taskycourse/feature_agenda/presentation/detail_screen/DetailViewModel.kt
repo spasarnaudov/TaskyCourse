@@ -1,14 +1,16 @@
 package com.spascoding.taskycourse.feature_agenda.presentation.detail_screen
 
 import androidx.lifecycle.ViewModel
+import com.spascoding.taskycourse.R
+import com.spascoding.taskycourse.navigation.Navigation
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor() : ViewModel() {
 
-    var state = MutableStateFlow(DetailViewModelState())
-        private set
+    private val _state = MutableStateFlow(DetailViewModelState())
+    val state = _state.asStateFlow()
 
     fun onEvent(event: DetailEvent) {
         when (event) {
@@ -19,16 +21,31 @@ class DetailViewModel @Inject constructor() : ViewModel() {
 
             }
             DetailEvent.EditAction -> {
-                state.update {
-                    state.value.copy(isEditMode = true)
-                }
+                _state.value = state.value.copy(isEditMode = true)
+
             }
             DetailEvent.SaveAction -> {
-                state.update {
-                    state.value.copy(isEditMode = false)
-                }
+                _state.value = state.value.copy(isEditMode = false)
             }
             DetailEvent.PopBackStack -> {}
+            DetailEvent.EditTitleClick -> {}
+            DetailEvent.EditDescriptionClick -> {}
         }
+    }
+
+    fun setNavigation(navigation: Navigation) = when (navigation) {
+        Navigation.EventDetailNavigation -> {
+            _state.value = state.value.copy(title = R.string.new_event)
+            _state.value = state.value.copy(description = R.string.event_description)
+        }
+        Navigation.RemainderDetailNavigation -> {
+            _state.value = state.value.copy(title = R.string.new_reminder)
+            _state.value = state.value.copy(description = R.string.reminder_description)
+        }
+        Navigation.TaskDetailNavigation -> {
+            _state.value = state.value.copy(title = R.string.new_task)
+            _state.value = state.value.copy(description = R.string.task_description)
+        }
+        else -> {}
     }
 }
