@@ -75,12 +75,12 @@ private fun DetailScreen(
             HeaderSection(navigation)
             TitleSection(
                 state = state,
-                onEvent = onEvent,
+                onEditTitleClick = { onEvent.invoke(DetailEvent.EditTitleClick) },
             )
             Line()
             DescriptionSection(
                 state = state,
-                onEvent = onEvent,
+                onEditDescriptionClick = { onEvent.invoke(DetailEvent.EditDescriptionClick) },
             )
             Line()
             if (navigation is Navigation.EventDetailNavigation) {

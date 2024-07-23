@@ -28,7 +28,7 @@ import com.spascoding.taskycourse.feature_agenda.presentation.detail_screen.Deta
 @Composable
 fun TitleSection(
     state: DetailViewModelState,
-    onEvent: (DetailEvent) -> Unit,
+    onEditTitleClick: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -56,7 +56,7 @@ fun TitleSection(
                             color = Color.Black
                         ),
                         onClick = {
-                            onEvent.invoke(DetailEvent.EditTitleClick)
+                            onEditTitleClick.invoke()
                         },
                     ),
                 contentAlignment = Alignment.Center

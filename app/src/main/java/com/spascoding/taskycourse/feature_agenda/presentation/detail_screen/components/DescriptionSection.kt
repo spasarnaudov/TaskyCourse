@@ -25,7 +25,7 @@ import com.spascoding.taskycourse.feature_agenda.presentation.detail_screen.Deta
 @Composable
 fun DescriptionSection(
     state: DetailViewModelState,
-    onEvent: (DetailEvent) -> Unit,
+    onEditDescriptionClick: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -46,7 +46,7 @@ fun DescriptionSection(
                             color = Color.Black
                         ),
                         onClick = {
-                            onEvent.invoke(DetailEvent.EditDescriptionClick)
+                            onEditDescriptionClick.invoke()
                         },
                     ),
                 contentAlignment = Alignment.Center
