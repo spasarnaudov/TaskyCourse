@@ -1,5 +1,6 @@
 package com.spascoding.taskycourse.feature_agenda.presentation.detail_screen
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.spascoding.taskycourse.R
 import com.spascoding.taskycourse.navigation.Navigation
@@ -7,10 +8,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-class DetailViewModel @Inject constructor() : ViewModel() {
+class DetailViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
     private val _state = MutableStateFlow(DetailViewModelState())
     val state = _state.asStateFlow()
+
+    init {
+        val navigationString = savedStateHandle.get<String>("navigation")
+        val navigation = navigationString?.let { Navigation.fromRoute(it) }
+        navigation?.let { setNavigation(it) }
+    }
 
     fun onEvent(event: DetailEvent) {
         when (event) {
@@ -33,19 +42,19 @@ class DetailViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun setNavigation(navigation: Navigation) = when (navigation) {
-        Navigation.EventDetailNavigation -> {
-            _state.value = state.value.copy(title = R.string.new_event)
-            _state.value = state.value.copy(description = R.string.event_description)
+    fun setNavigation(navigation: Navigation) {
+        savedStateHandle.set("navigation", navigation.route)
+        when (navigation) {
+            Navigation.EventDetailNavigation -> {
+                _state.value = state.value.copy(title = R.string.new_event, description = R.string.event_description)
+            }
+            Navigation.RemainderDetailNavigation -> {
+                _state.value = state.value.copy(title = R.string.new_reminder, description = R.string.reminder_description)
+            }
+            Navigation.TaskDetailNavigation -> {
+                _state.value = state.value.copy(title = R.string.new_task, description = R.string.task_description)
+            }
+            else -> {}
         }
-        Navigation.RemainderDetailNavigation -> {
-            _state.value = state.value.copy(title = R.string.new_reminder)
-            _state.value = state.value.copy(description = R.string.reminder_description)
-        }
-        Navigation.TaskDetailNavigation -> {
-            _state.value = state.value.copy(title = R.string.new_task)
-            _state.value = state.value.copy(description = R.string.task_description)
-        }
-        else -> {}
     }
 }

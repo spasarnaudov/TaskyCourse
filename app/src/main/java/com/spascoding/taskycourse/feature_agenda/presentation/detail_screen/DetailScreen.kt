@@ -34,7 +34,6 @@ fun DetailScreenRoot(
     navigation: Navigation,
     viewModel: DetailViewModel = hiltViewModel(),
 ) {
-    viewModel.setNavigation(navigation)
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val onEvent: (DetailEvent) -> Unit = { event ->

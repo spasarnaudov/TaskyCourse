@@ -75,9 +75,9 @@ private fun AgendaScreen(
                 ),
                 onFABClick = {
                     when (it) {
-                        AgendaItemType.EVENT.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.EventDetailNavigation.route)) }
-                        AgendaItemType.TASK.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.TaskDetailNavigation.route)) }
-                        AgendaItemType.REMAINDER.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.RemainderDetailNavigation.route)) }
+                        AgendaItemType.EVENT.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.EventDetailNavigation.route + "?navigation=${Navigation.EventDetailNavigation.route}")) }
+                        AgendaItemType.TASK.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.TaskDetailNavigation.route + "?navigation=${Navigation.TaskDetailNavigation.route}")) }
+                        AgendaItemType.REMAINDER.ordinal -> { onEvent.invoke(AgendaEvent.SelectAgendaItemMenu(Navigation.RemainderDetailNavigation.route  + "?navigation=${Navigation.RemainderDetailNavigation.route}")) }
                     }
                 }
             )
