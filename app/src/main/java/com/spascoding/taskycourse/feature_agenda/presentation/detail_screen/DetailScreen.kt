@@ -1,10 +1,20 @@
 package com.spascoding.taskycourse.feature_agenda.presentation.detail_screen
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.spascoding.taskycourse.core.constants.Colors
+import com.spascoding.taskycourse.core.constants.Padding
 import com.spascoding.taskycourse.core.presentation.components.TaskyScaffold
 import com.spascoding.taskycourse.feature_agenda.presentation.detail_screen.components.AttendeeSection
 import com.spascoding.taskycourse.feature_agenda.presentation.detail_screen.components.Controls
@@ -24,7 +34,6 @@ fun DetailScreenRoot(
     navigation: Navigation,
     viewModel: DetailViewModel = hiltViewModel(),
 ) {
-
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val onEvent: (DetailEvent) -> Unit = { event ->
@@ -32,6 +41,7 @@ fun DetailScreenRoot(
             is DetailEvent.PopBackStack -> {
                 navController.popBackStack()
             }
+
             else -> viewModel.onEvent(event)
         }
     }
@@ -57,20 +67,49 @@ private fun DetailScreen(
             )
         }
     ) {
-        HeaderSection(navigation)
-        TitleSection()
-        DescriptionSection()
-        if (navigation is Navigation.EventDetailNavigation) {
-            PhotoSection()
+        Column(
+            modifier = Modifier
+                .padding(horizontal = Padding.MEDIUM)
+        ) {
+            HeaderSection(navigation)
+            TitleSection(
+                state = state,
+                onEditTitleClick = { onEvent.invoke(DetailEvent.EditTitleClick) },
+            )
+            Line()
+            DescriptionSection(
+                state = state,
+                onEditDescriptionClick = { onEvent.invoke(DetailEvent.EditDescriptionClick) },
+            )
+            Line()
+            if (navigation is Navigation.EventDetailNavigation) {
+                PhotoSection()
+                Line()
+            }
+            StartDateSection()
+            Line()
+            if (navigation is Navigation.EventDetailNavigation) {
+                EndDateSection()
+                Line()
+            }
+            ReminderSection()
+            Line()
+            if (navigation is Navigation.EventDetailNavigation) {
+                AttendeeSection()
+                Line()
+            }
+            DeleteButton()
         }
-        StartDateSection()
-        if (navigation is Navigation.EventDetailNavigation) {
-            EndDateSection()
-        }
-        ReminderSection()
-        if (navigation is Navigation.EventDetailNavigation) {
-            AttendeeSection()
-        }
-        DeleteButton()
     }
+}
+
+@Composable
+fun Line() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = Padding.MEDIUM)
+            .height(1.dp)
+            .background(color = Colors.Light)
+    )
 }
